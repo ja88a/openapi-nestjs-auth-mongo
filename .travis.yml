@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - lts/*
+  - node
+addons:
+  firefox: latest
+cache:
+  directories:
+    - node_modules
+before_script:
+  - npm install -g lerna typescript
+  - lerna bootstrap 
+	- lerna link
+	- lerna run build
+script:
+  - lerna run test
+after_success: 
+  - lerna run coverage

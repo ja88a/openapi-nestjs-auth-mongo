@@ -1,0 +1,19 @@
+{
+  "useWorkspaces": false,
+  "npmClient": "yarn",
+  "useNx": false,
+  "packages": [
+    "packages/*"
+  ],
+  "npmClientArgs": [],
+  "changelog": {
+    "labels": {
+      "enhancement": "Enhancements",
+      "bug": "Bug Fixes",
+      "feat": "Features",
+      "refactor": "Code Refactors"
+    },
+    "cacheDir": ".changelog"
+  },
+  "version": "0.1.0"
+}

@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  service:
+    build: .
+    container_name: sopenapi-auth
+    hostname: sopenapi-auth
+    ports:
+      - 3000:3000
+    networks:
+      - app-network
+    volumes:
+      - ./src/:/app/src/
+      - .env/:/app/.env
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - mongodb
+  mongodb:
+    image: mongo:5.0.6
+    container_name: mongodb
+    hostname: mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: sopenapi
+    volumes:
+      - dbdata:/data/db
+    restart: unless-stopped
+    networks:
+      - app-network
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    hostname: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - app-network
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+volumes:
+  dbdata:
