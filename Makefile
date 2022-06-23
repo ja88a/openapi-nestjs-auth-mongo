@@ -22,7 +22,10 @@ deps: clean
 	# Restore all dependencies
 	yarn
 	lerna bootstrap
-	yarn --frozen-lockfile --production
+
+lock:
+	yarn --frozen-lockfile
+	#yarn --frozen-lockfile --production
 
 build:
 	lerna run build

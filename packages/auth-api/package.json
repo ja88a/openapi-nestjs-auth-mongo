@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
-    "clean": "rm -rf ./dist ./*.tsbuildinfo ./coverage ./integration-coverage ./logs", 
+    "clean": "rm -rf ./dist ./*.tsbuildinfo ./coverage ./*-coverage ./logs",
     "deadcode": "ts-prune --project tsconfig.json",
     "format": "prettier --write '{src,test,e2e,integration}/**/*.ts'",
     "format:e2e": "prettier --write e2e/**/*.ts",
@@ -124,7 +124,7 @@
     "prettier": "^2.7.1",
     "supertest": "^6.2.3",
     "ts-jest": "^28.0.5",
-    "ts-loader": "^9.3.0",
+    "ts-loader": "^9.3.1",
     "ts-node": "^10.8.1",
     "ts-prune": "^0.10.3",
     "tsconfig-paths": "^4.0.0",

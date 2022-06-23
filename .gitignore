@@ -1,6 +1,5 @@
 # compiled output
 dist
-prod
 node_modules
 
 # Logs
@@ -49,6 +48,7 @@ integration-coverage
 
 # environment
 .env
+.env_*
 config.yaml
 config.yml
 

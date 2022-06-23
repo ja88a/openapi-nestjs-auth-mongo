@@ -17,14 +17,15 @@ services:
       - mongodb
   mongodb:
     image: mongo:5.0.6
-    container_name: mongodb
-    hostname: mongodb
+    container_name: sopenapi-mongo
+    hostname: mongo
     ports:
       - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: sopenapi
+    # command: [--auth]
     volumes:
       - dbdata:/data/db
     restart: unless-stopped

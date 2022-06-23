@@ -10,7 +10,7 @@
   },
   "author": {
     "name": "Jabba 01",
-    "email": "dev@srenault.com"
+    "email": "r0g3r@tuta.io"
   },
   "workspaces": [
     "packages/*"
@@ -19,8 +19,6 @@
   "types": "types/index.d.ts",
   "files": [
     "dist/",
-    "types/",
-    "*.md",
     "!*.spec.*",
     "!**/testdata/"
   ],

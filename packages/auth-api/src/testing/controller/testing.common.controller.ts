@@ -58,6 +58,6 @@ export class TestingCommonController {
     async helloTimeout(): Promise<IResponse> {
         await this.helperService.delay(60000);
 
-        return {};
+        return;
     }
 }

@@ -1,7 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn lint
-yarn deadcode
-yarn spell
-yarn test
+#lerna run lint
+#lerna run deadcode
+#lerna run spell
+#lerna run test

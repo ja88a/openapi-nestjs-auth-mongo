@@ -1,45 +1,24 @@
 {
-  "extends": "../../tsconfig.json",
-
-  "compilerOptions": {
-    "rootDirs": [
-      "src",
-      "test",
-      "e2e",
-      "integration"
-    ],
-    // "assets": [
-    //   "resources/**/*.json"
-    // ],
-    "outDir": "./dist",
-    "baseUrl": "./",
-    
-    //"declaration": true,
-    //"declarationDir": "./dist/types"
-
-    // "module": "commonjs",
-    // "moduleResolution": "node",
-    // "target": "ESNext",
-    // "allowJs": false,
-    // "allowSyntheticDefaultImports": true,
-    // "declaration": false,
-    // "declarationMap": false,
-    // "esModuleInterop": true,
-    // "emitDecoratorMetadata": true,
-    // "experimentalDecorators": true,
-    // "incremental": true,
-    // "newLine": "LF",
-    // "noEmitOnError": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noImplicitReturns": true,
-    // "noUnusedLocals": false,
-    // "noUnusedParameters": false,
-    // "removeComments": true,
-    // "resolveJsonModule": true,
-    // "skipLibCheck": true,
-    // "sourceMap": true,
-    // "useDefineForClassFields": false,
-  },
+  "extends": "./tsconfig.base.json",
+  // "compilerOptions": {
+  //   "module": "commonjs",
+  //   "declaration": false,
+  //   "removeComments": true,
+  //   "emitDecoratorMetadata": true,
+  //   "experimentalDecorators": true,
+  //   "allowSyntheticDefaultImports": true,
+  //   "useDefineForClassFields": false,
+  //   "target": "ESNext",
+  //   "sourceMap": true,
+  //   "outDir": "./dist",
+  //   "baseUrl": "./",
+  //   "allowJs": false,
+  //   "incremental": true,
+  //   "skipLibCheck": true,
+  //   "esModuleInterop": true,
+  //   "moduleResolution": "node",     
+  //   "resolveJsonModule": true
+  // },
   "include": [
     "src",
     "test",
@@ -47,8 +26,8 @@
     "integration"
   ],
   "exclude": [
-    "node_modules", 
-    "dist",
+    "node_modules",
+    "dist", 
     "prod"
   ]
 }
