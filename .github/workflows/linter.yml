@@ -3,6 +3,12 @@ on:
   pull_request:
     branches: 
     - main
+    paths: 
+    - "packages/auth-api/**"
+
+defaults:
+  run:
+    working-directory: ./packages/auth-api
 
 jobs:
   linter:
@@ -29,4 +35,3 @@ jobs:
           
       - name: Linter
         run: yarn lint
-        working-directory: ./packages/auth-api
