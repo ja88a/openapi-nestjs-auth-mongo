@@ -3,13 +3,16 @@ on:
   push:
     branches: 
     - main
-
+    paths: 
+    - "packages/auth-api/**"
+  
 jobs:
+
   build:
     runs-on: ubuntu-latest
     env:
-      APP_NAME: ack-nestjs-boilerplate-mongoose
-      DOCKERFILE: ./prod/dockerfile
+      APP_NAME: sopenapi-auth
+      DOCKERFILE: ./packages/auth-api/prod/dockerfile
     
     steps:
       - name: Git checkout
@@ -34,6 +37,7 @@ jobs:
         run: |
           echo APP_NAME is: ${{ env.APP_NAME}}
           echo DOCKERFILE is: ${{ env.DOCKERFILE}}
+        working-directory: ./packages/auth-api
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -43,9 +47,11 @@ jobs:
 
       - uses: docker/setup-buildx-action@v2
         id: builder
+        working-directory: ./packages/auth-api
 
       - uses: docker/setup-buildx-action@v2
         id: main
+        working-directory: ./packages/auth-api
 
       - name: Builder name
         run: echo ${{ steps.builder.outputs.name }}
@@ -65,6 +71,7 @@ jobs:
           builder: ${{ steps.builder.outputs.name }}
           file: ${{ env.DOCKERFILE }}
           target: builder
+        working-directory: ./packages/auth-api
 
       - name: Build against main and push
         uses: docker/build-push-action@v3
@@ -77,6 +84,8 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:v${{ steps.version.outputs.current-version}}
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:v${{ steps.version.outputs.current-version}}_sha-${{ steps.git.outputs.short_sha }}
           push: true
+        working-directory: ./packages/auth-api
+
 
 
 

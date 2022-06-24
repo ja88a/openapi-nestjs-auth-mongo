@@ -6,21 +6,21 @@ pipeline {
     environment {
         BASE_IMAGE='node:lts-alpine' // change this with same version of container image
 
-        APP_NAME = 'sopenapi-auth' // this will be container name
-        APP_NETWORK = 'app-network' // this network name
-        APP_PORT = 3000 // this project will serve in port 0.0.0.0:3000
+        APP_NAME = 'sopenapi-auth' // container name
+        APP_NETWORK = 'app-network' // network name
+        APP_PORT = 3000 // the service will serve on port 0.0.0.0:3000
         
-        NODE_JS = 'lts' // depends with our jenkins setting 
+        NODE_JS = 'lts' // depends on Jenkins settings
 
         HOST_IP = 'xx.xx.xx.xx' // this server ip for your production server
-        HOST_CREDENTIAL = '2637b88f-8dc8-4395-bd6b-0c6127720a89' // depends with our credentials jenkins
+        HOST_CREDENTIAL = '2637b88f-8dc8-4395-bd6b-0c6127720a89' // depends on Jenkins credentials
         
-        DOCKER_CREDENTIAL = 'ef108994-1241-4614-aab5-2aadd7a72284' // depends with our credentials jenkins
+        DOCKER_CREDENTIAL = 'ef108994-1241-4614-aab5-2aadd7a72284' // depends on Jenkins credentials
         DOCKER_FILE= './prod/dockerfile'
         DOCKER_USERNAME = 'ja88a' // docker hub username
         DOCKER_REGISTRY = 'https://index.docker.io/v1/' 
 
-        GIT = 'Default' // depends with our jenkins setting
+        GIT = 'Default' // depends on the jenkins setting
         GIT_BRANCH = 'main' // git branch
         GIT_CREDENTIAL = '86535ad6-5d74-48c0-9852-bddbe1fbaff6' // depends with our credentials jenkins 
     }

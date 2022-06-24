@@ -11,7 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env: 
-      APP_NAME: ack-nestjs-boilerplate-mongoose
+      APP_NAME: sopenapi-auth
       APP_PORT: 3000
       APP_NETWORK: app-network
 
@@ -66,6 +66,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           user: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY}}
+        working-directory: ./packages/auth-api
 
       - name: Clean
         uses: fifsky/ssh-action@master

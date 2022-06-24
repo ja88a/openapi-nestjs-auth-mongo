@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: 
     - main
+    paths: 
+    - "packages/auth-api/**"
     
 jobs:
   test:
@@ -35,9 +37,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
+        working-directory: ./packages/auth-api
 
       - name: Migration
         run: yarn migrate
+        working-directory: ./packages/auth-api
 
       - name: Create env file
         run: |
@@ -51,12 +55,16 @@ jobs:
           AWS_CREDENTIAL_SECRET: ${{ secrets.AWS_CREDENTIAL_SECRET }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
-          
+        working-directory: ./packages/auth-api
+
       - name: Unit Test
         run: yarn test:unit
+        working-directory: ./packages/auth-api
 
       - name: Unit Integration
         run: yarn test:integration
+        working-directory: ./packages/auth-api
 
       - name: E2E Test
         run: yarn test:e2e
+        working-directory: ./packages/auth-api

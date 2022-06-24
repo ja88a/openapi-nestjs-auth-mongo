@@ -1,6 +1,6 @@
 # Docker Compose File
 
-> not test yet
+> IN PROGRESS - To be finalized
 
 ## Single
 

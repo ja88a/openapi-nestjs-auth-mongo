@@ -29,3 +29,4 @@ jobs:
           
       - name: Linter
         run: yarn lint
+        working-directory: ./packages/auth-api

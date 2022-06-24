@@ -5,7 +5,7 @@ services:
     container_name: mongodb
     hostname: mongodb
     environment:
-      MONGODB_DATABASE: ack
+      MONGODB_DATABASE: sopenapi
       MONGODB_ROOT_PASSWORD: password123
     restart: unless-stopped
     ports:
