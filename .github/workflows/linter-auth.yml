@@ -1,10 +1,12 @@
-name: Linter
+name: Linter on sopenapi-auth
 on:
   pull_request:
     branches: 
     - main
     paths: 
     - "packages/auth-api/**"
+    - "!packages/auth-api/**/*.md"
+    - ".github/workflows/linter-auth.yml"
 
 defaults:
   run:

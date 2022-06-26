@@ -78,11 +78,11 @@ Find more details in the ACK docs:
 
 This module benefits a lot from the powerful *NestJS* dev framework. It is also largely inspired by the work done by Andre Christi Kan, a.k.a. [ACK](https://github.com/andrechristikan), and the contributors of the template projet [ACK NestJs Boilerplate Mongoose](https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose) (under MIT license).
 
-We invite every nodejs/nestjs to benefit from this high-ended boilerplate, in terms of code quality, patterns, tests, deployments & documentations! Thanks for your great contributions the ACK team!
+We invite every nodejs/nestjs to benefit from this high-ended boilerplate, in terms of code quality, patterns, tests, deployments & documentations!
 
 ## License
 
-Distributed under [MIT license][license].
+Distributed under the [MIT license][license].
 
 
 ## Contact
@@ -113,7 +113,7 @@ Distributed under [MIT license][license].
 
 <!-- CONTACTS -->
 [author-linkedin]: https://linkedin.com/in/srenault
-[author-email]: mailto:support@srenault.com
+[author-email]: mailto:r0g3r@tuta.io
 [author-github]: https://github.com/ja88a
 
 <!-- Repo LINKS -->

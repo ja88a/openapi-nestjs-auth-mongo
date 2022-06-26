@@ -1,10 +1,12 @@
-name: Test
+name: Test sopenapi-auth
 on:
   pull_request:
     branches: 
     - main
     paths: 
     - "packages/auth-api/**"
+    - "!packages/auth-api/**/*.md"
+    - ".github/workflows/test-auth.yml"
 
 defaults:
   run:
@@ -12,8 +14,8 @@ defaults:
  
 jobs:
   test:
-    runs-on: ubuntu-latest
-    environment: baibay
+    runs-on: ubuntu-20.04
+    environment: ubuntu-20.04
 
     strategy:
       matrix:
