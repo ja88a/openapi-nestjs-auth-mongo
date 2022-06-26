@@ -35,5 +35,5 @@
       }
     ]
   },
-  "defaultProject": "api-auth"
+  "defaultProject": "account-api"
 }

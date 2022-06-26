@@ -1,5 +1,5 @@
 {
-  "name": "@sopenapi/api-auth",
+  "name": "@sopenapi/account-api",
   "version": "0.1.0",
   "description": "S-OpenAPI for managing Authentications",
   "repository": {

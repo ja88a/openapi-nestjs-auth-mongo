@@ -37,7 +37,7 @@
     "setup": "yarn wsrun -mre -t setup && yarn wsrun -mre -t setup",
     "test:unit": "lerna run test:unit",
     "test:integration": "lerna run test:integration",
-    "test:api-auth": "yarn workspace @sopenapi/api-auth test",
+    "test:account-api": "yarn workspace @sopenapi/account-api test",
     "test:example-start-server": "node ./helpers/server.js",
     "test": "lerna run test",
     "prepare": "lerna run install",

@@ -11,7 +11,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env: 
-      APP_NAME: sopenapi-auth
+      APP_NAME: sopenapi-account
       APP_PORT: 3000
       APP_NETWORK: app-network
 

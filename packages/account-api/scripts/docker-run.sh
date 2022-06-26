@@ -1,5 +1,5 @@
 #!/bin/bash
-APPNAME="sopenapi-auth"
+APPNAME="sopenapi-account"
 
 CLEAN="clean"
 RUN="start"

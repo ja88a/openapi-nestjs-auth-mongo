@@ -6,7 +6,7 @@ pipeline {
     environment {
         BASE_IMAGE='node:lts-alpine' // change this with same version of container image
 
-        APP_NAME = 'sopenapi-auth' // container name
+        APP_NAME = 'sopenapi-account' // container name
         APP_NETWORK = 'app-network' // network name
         APP_PORT = 3000 // the service will serve on port 0.0.0.0:3000
         

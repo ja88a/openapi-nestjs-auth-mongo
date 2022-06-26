@@ -2,7 +2,7 @@ name: Release sopenapi
 
 on:
   workflow_run:
-    workflows: ['CI sopenapi-auth']
+    workflows: ['CI sopenapi-account']
     types:
       - completed
 

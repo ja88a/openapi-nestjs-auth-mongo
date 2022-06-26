@@ -1,23 +1,23 @@
-name: CI sopenapi-auth
+name: CI sopenapi-account
 on:
   push:
     branches: 
     - main
     paths:
-    - "packages/auth-api/**"
+    - "packages/account-api/**"
     - ".github/workflows/ci-auth.yml"
 
 defaults:
   run:
-    working-directory: ./packages/auth-api
+    working-directory: ./packages/account-api
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
     env:
-      APP_NAME: sopenapi-auth
-      DOCKERFILE: ./packages/auth-api/prod/dockerfile
+      APP_NAME: sopenapi-account
+      DOCKERFILE: ./packages/account-api/prod/dockerfile
     
     steps:
       - name: Git checkout
@@ -79,7 +79,7 @@ jobs:
         with:
           builder: ${{ steps.main.outputs.name }}
           file: ${{ env.DOCKERFILE }}
-          context: "{{defaultContext}}:packages/auth-api"
+          context: "{{defaultContext}}:packages/account-api"
           target: main
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:latest
