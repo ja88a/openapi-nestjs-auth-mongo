@@ -63,6 +63,9 @@ If you change env value of `APP_MODE` to `secure` that will trigger more `Middle
 Next developments:
 - [ ] Swagger doc
 - [ ] Versioning Serialization (Low Priority)
+- [ ] Timezone in serialization and dto
+- [ ] Utils unit test
+- [ ] Add `Redis` Configuration
 - [ ] Update Documentation 
 - [ ] Docker Compose File Mongodb Replication Set (Low Priority)
 

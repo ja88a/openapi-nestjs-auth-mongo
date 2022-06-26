@@ -21,12 +21,19 @@
         "initdb",
         "deadcode",
         "authapis",
-        "headerapikey"
+        "headerapikey",
+        "jenkinsfile"
     ],
     "ignoreWords": [
+        "psheon",
+        "aallithioo",
+        "tiaamoo",
         "qwertyuiop12345zxcvbnmkjh",
         "opbUwdiS1FBsrDUoPgZdx",
-        "cuwakimacojulawu"
+        "cuwakimacojulawu",
+        "baibay",
+        "acks",
+        "andrechristikan"
     ],
     "ignorePaths": [
         "node_modules/**", 

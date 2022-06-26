@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-LABEL maintainer "r0g3r@tuta.io"
+LABEL maintainer "ja88a"
 
 WORKDIR /app
 EXPOSE 3000

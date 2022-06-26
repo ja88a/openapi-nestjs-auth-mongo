@@ -5,7 +5,7 @@ CLEAN="clean"
 RUN="start"
 RESTART="rebuild"
 STOP="stop"
-MONGO="mongo"
+MONGO="mongosh"
 LOGS="logs"
 
 if [ "$#" -eq 0 ] || [ $1 = "-h" ] || [ $1 = "--help" ]; then
