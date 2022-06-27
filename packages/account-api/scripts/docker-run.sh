@@ -3,6 +3,7 @@ APPNAME="sopenapi-account"
 
 CLEAN="clean"
 RUN="start"
+RUN_PROD="prod"
 RESTART="rebuild"
 STOP="stop"
 MONGO="mongosh"
@@ -20,6 +21,7 @@ if [ "$#" -eq 0 ] || [ $1 = "-h" ] || [ $1 = "--help" ]; then
     echo "  $RESTART    - Stop, Clean, force re-Build and Run $APPNAME related containers."
     echo "  $STOP       - Stop $APPNAME related containers."
     echo "  $CLEAN      - Stop and Remove $APPNAME related containers."
+    echo "  $RUN_PROD   - Build and Run the $APPNAME production container."
     echo "  $MONGO      - Access the MongoDB shell."
     echo "  $LOGS       - Show and follow logs of $APPNAME."
     exit
@@ -35,8 +37,14 @@ run() {
   echo "Stopping existing containers..."
   stop_existing
   
-  echo "Running Docker..."
+  echo "Running Docker Compose..."
   docker compose up --build
+}
+
+build_run_prod () {
+  docker image build -f ./prod/dockerfile --force-rm --label sopenapi-account-prod --tag sopenapi-account-prod:latest --compress .
+  docker container create sopenapi-account-prod:latest
+  docker container start sopenapi-account-prod:latest
 }
 
 restart() {
@@ -113,6 +121,11 @@ fi
 if [ $1 = $STOP ]; then
 	stop_existing
 	exit
+fi
+
+if [ $1 = $RUN_PROD ]; then
+  build_run_prod
+  exit;
 fi
 
 if [ $1 = $MONGO ]; then

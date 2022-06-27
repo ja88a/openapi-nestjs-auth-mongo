@@ -29,7 +29,7 @@
     "lint:test": "eslint --ext .ts,.tsx test/**/*.ts --no-error-on-unmatched-pattern",
     "migrate": "nestjs-command insert:setting && nestjs-command insert:authapis && nestjs-command insert:permission && nestjs-command insert:role && nestjs-command insert:user",
     "prebuild": "rimraf dist",
-    "prepare": "husky install",
+    "prepare": "cd ../.. && husky install packages/account-api/.husky",
     "reset": "yarn clean && rm -rf ./node_modules",
     "rollback": "nestjs-command remove:user && nestjs-command remove:role && nestjs-command remove:permission && nestjs-command remove:authapis && nestjs-command remove:setting",
     "spell": "cspell lint --config cspell.json {src,test,e2e,integration}/**/*.ts readme.md tsconfig*.json docker* package.json nodemon.json license.md .github/* .husky/* --color --gitignore --no-must-find-files --no-summary --no-progress || true",
