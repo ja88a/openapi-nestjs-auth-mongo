@@ -4,11 +4,11 @@ import ms from 'ms';
 export default registerAs(
     'app',
     (): Record<string, any> => ({
-        name: process.env.APP_NAME || 'ack',
+        name: process.env.APP_NAME || 'sopenapi-account',
         env: process.env.APP_ENV || 'development',
         mode: process.env.APP_MODE || 'simple',
         language: process.env.APP_LANGUAGE || 'en',
-        timezone: process.env.APP_TZ || 'Asia/Jakarta',
+        timezone: process.env.APP_TZ || 'Europe/Paris',
 
         http: {
             host: process.env.APP_HOST || 'localhost',
@@ -34,5 +34,6 @@ export default registerAs(
 
         httpOn: process.env.APP_HTTP_ON === 'true' ? true : false,
         taskOn: process.env.APP_TASK_ON === 'true' || false,
+        swaggerOn: process.env.APP_SWAGGER_ON === 'true' || false,
     })
 );

@@ -3,6 +3,7 @@ import { Logger, VersioningType, VERSION_NEUTRAL } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
+import { DocumentBuilder, SwaggerCustomOptions, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
     const versioningPrefix: string = configService.get<string>(
         'app.versioning.prefix'
     );
+    const swaggerOn: boolean = configService.get<boolean>('app.swaggerOn');
 
     const logger = new Logger();
     process.env.TZ = tz;
@@ -33,6 +35,31 @@ async function bootstrap() {
             prefix: versioningPrefix,
         });
     }
+    
+    // Swagger doc
+    if (swaggerOn) {
+        const config = new DocumentBuilder()
+            .setTitle('S*OpenAPI Accounts')
+            .setDescription('Accounts management API: users, permissions, roles, authentication')
+            .setVersion('1.0')
+            .addTag('account')
+            .build();
+        const options: SwaggerDocumentOptions =  {
+            operationIdFactory: (
+                controllerKey: string,
+                methodKey: string
+            ) => methodKey
+        };
+        const document = SwaggerModule.createDocument(app, config, options);
+        const customOptions: SwaggerCustomOptions = {
+            swaggerOptions: {
+                persistAuthorization: true,
+            },
+            customSiteTitle: 'S*OpenAPI Docs',
+            //customfavIcon: 
+        };
+        SwaggerModule.setup('api', app, document, customOptions);
+    } 
 
     // Listen
     await app.listen(port, host);
@@ -56,6 +83,7 @@ async function bootstrap() {
         `App Task is ${configService.get<boolean>('app.taskOn')}`,
         'NestApplication'
     );
+    logger.log(`App Swagger Doc is ${configService.get<boolean>('app.swaggerOn')}`, 'NestApplication');
     logger.log(`App Timezone is ${tz}`, 'NestApplication');
     logger.log(
         `Database Debug is ${configService.get<boolean>('database.debug')}`,

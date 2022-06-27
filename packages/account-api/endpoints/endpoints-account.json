@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "dde62979-46d0-4eed-a958-e6068eeca296",
-		"name": "sopenapi-auth",
+		"name": "sopenapi-account",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
