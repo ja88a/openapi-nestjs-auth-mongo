@@ -14,7 +14,7 @@ export class RoleGetSerialization {
     /** Flag a role dedicated to admins only */
     readonly isAdmin: boolean;
 
-    /** Permissions assocated to the role */
+    /** Permissions associated to the role */
     @Transform(({ obj }) =>
         obj.permissions.map((val) => ({
             _id: `${val._id}`,

@@ -22,7 +22,9 @@
         "deadcode",
         "authapis",
         "headerapikey",
-        "jenkinsfile"
+        "jenkinsfile",
+        "sopenapi",
+        "tsbuildinfo"
     ],
     "ignoreWords": [
         "psheon",

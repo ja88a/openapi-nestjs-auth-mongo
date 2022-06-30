@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
 import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
@@ -21,7 +21,8 @@ import { IResult } from 'ua-parser-js';
 @ApiTags('Tests')
 @ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaResp('{ "type": "object", "additionalProperties": false, "title": "data output"}')})
 @Controller({
-    version: VERSION_NEUTRAL,
+    version: '1', // VERSION_NEUTRAL
+    //path: '/',
 })
 export class TestingCommonController {
     constructor(

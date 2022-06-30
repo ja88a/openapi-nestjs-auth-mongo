@@ -17,7 +17,6 @@ async function bootstrap() {
     const versioningPrefix: string = configService.get<string>(
         'app.versioning.prefix'
     );
-    const swaggerOn: boolean = configService.get<boolean>('app.swaggerOn');
 
     const logger = new Logger();
     process.env.TZ = tz;
@@ -37,10 +36,11 @@ async function bootstrap() {
     }
     
     // Swagger doc
+    const swaggerOn: boolean = configService.get<boolean>('app.swaggerOn');
     if (swaggerOn) {
         const config = new DocumentBuilder()
-            .setTitle('S*OpenAPI Accounts')
-            .setDescription('Accounts management API: users, permissions, roles, authentication')
+            .setTitle('S*OpenAPI Account Service')
+            .setDescription('Accounts management API: users, permissions, roles & authentication')
             .setVersion('1.0')
             .addBearerAuth()
             .build();
@@ -58,7 +58,7 @@ async function bootstrap() {
             customSiteTitle: 'S*OpenAPI Docs',
             //customfavIcon: 
         };
-        SwaggerModule.setup('api', app, document, customOptions);
+        SwaggerModule.setup('api/v1', app, document, customOptions);
     } 
 
     // Listen

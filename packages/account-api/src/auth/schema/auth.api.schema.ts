@@ -27,7 +27,7 @@ export class AuthApiEntity {
     })
     key: string;
 
-    /** Hash of the API decrytion key */
+    /** Hash of the API decryption key */
     @Prop({
         required: true,
         trim: true,
