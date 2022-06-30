@@ -1,6 +1,7 @@
 import {
     Controller,
     Get,
+    HttpStatus,
     InternalServerErrorException,
     VERSION_NEUTRAL,
 } from '@nestjs/common';
@@ -18,7 +19,19 @@ import { IResponse } from 'src/utils/response/response.interface';
 import { Response } from 'src/utils/response/response.decorator';
 import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
+import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import { getSchemaResp } from 'src/utils/response/response.serialization';
 
+@ApiTags('Health Checks')
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.',
+    schema: { "type": "object", "properties": { "statusCode": { "type": "integer" }, "message": { "type": "string" }, "data": { "type": "object"} } }
+})
+@ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
+@Controller({
+    version: '1',
+    path: 'role',
+})
 @Controller({
     version: VERSION_NEUTRAL,
     path: 'health',
@@ -33,6 +46,9 @@ export class HealthCommonController {
         private readonly awsIndicator: AwsHealthIndicator
     ) {}
 
+    /**
+     * Check for the AWS S3 bucket accessibility
+     */
     @Response('health.check')
     @HealthCheck()
     @ErrorMeta(HealthCommonController.name, 'aws')
@@ -50,6 +66,9 @@ export class HealthCommonController {
         }
     }
 
+    /**
+     * Check for the database accessibility
+     */
     @Response('health.check')
     @HealthCheck()
     @ErrorMeta(HealthCommonController.name, 'checkDatabase')
@@ -70,6 +89,9 @@ export class HealthCommonController {
         }
     }
 
+    /**
+     * Check for the memory heap
+     */
     @Response('health.check')
     @HealthCheck()
     @ErrorMeta(HealthCommonController.name, 'checkMemoryHeap')
@@ -91,6 +113,9 @@ export class HealthCommonController {
         }
     }
 
+    /**
+     * Check for the memory RSS
+     */
     @Response('health.check')
     @HealthCheck()
     @ErrorMeta(HealthCommonController.name, 'checkMemoryRss')
@@ -112,6 +137,9 @@ export class HealthCommonController {
         }
     }
 
+    /**
+     * Check for the storage availability, to be above 25%
+     */
     @Response('health.check')
     @HealthCheck()
     @ErrorMeta(HealthCommonController.name, 'checkStorage')

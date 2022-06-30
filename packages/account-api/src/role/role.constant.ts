@@ -13,3 +13,5 @@ export enum ENUM_ROLE_STATUS_CODE_ERROR {
 }
 
 export const ROLE_ACTIVE_META_KEY = 'RoleActiveMetaKey';
+
+export const ROLE_API_SWAGGER_TAG = 'Roles - admin';

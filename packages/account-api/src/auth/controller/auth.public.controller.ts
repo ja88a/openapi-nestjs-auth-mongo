@@ -2,10 +2,12 @@ import {
     BadRequestException,
     Body,
     Controller,
+    HttpStatus,
     InternalServerErrorException,
     NotFoundException,
     Post,
 } from '@nestjs/common';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { RoleDocument } from 'src/role/schema/role.schema';
 import { RoleService } from 'src/role/service/role.service';
@@ -16,10 +18,21 @@ import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { Response } from 'src/utils/response/response.decorator';
 import { IResponse } from 'src/utils/response/response.interface';
+import { getSchemaRespGen, getSchemaResp } from 'src/utils/response/response.serialization';
+import { AUTH_API_SWAGGER_TAG } from '../auth.constant';
 import { AuthSignUpDto } from '../dto/auth.sign-up.dto';
 import { AuthLoginSerialization } from '../serialization/auth.login.serialization';
 import { AuthService } from '../service/auth.service';
 
+@ApiTags(AUTH_API_SWAGGER_TAG) 
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaRespGen({ "type": "object" }) })
+@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Unknown role.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNPROCESSABLE_ENTITY, description: 'Invalid data.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
 @Controller({
     version: '1',
     path: '/auth',
@@ -31,9 +44,13 @@ export class AuthPublicController {
         private readonly roleService: RoleService
     ) {}
 
+    /**
+     * Register a new user account by signing up with an email.
+     */
     @Response('auth.signUp')
     @ErrorMeta(AuthPublicController.name, 'signUp')
     @Post('/sign-up')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
     async signUp(
         @Body()
         { email, mobileNumber, ...body }: AuthSignUpDto

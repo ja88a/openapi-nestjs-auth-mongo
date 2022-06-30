@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger/dist/decorators/api-hide-property.decorator';
 import { Exclude, Transform, Type } from 'class-transformer';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 import { IRoleDocument } from 'src/role/role.interface';
@@ -17,18 +18,20 @@ export class UserGetSerialization {
     readonly role: IRoleDocument;
 
     readonly email: string;
-    readonly mobileNumber: string;
+    readonly mobileNumber?: string;
     readonly isActive: boolean;
     readonly firstName: string;
-    readonly lastName: string;
+    readonly lastName?: string;
     readonly photo?: IAwsS3Response;
 
     @Exclude()
+    @ApiHideProperty() 
     readonly password: string;
 
     readonly passwordExpired: Date;
 
     @Exclude()
+    @ApiHideProperty() 
     readonly salt: string;
 
     readonly createdAt: Date;

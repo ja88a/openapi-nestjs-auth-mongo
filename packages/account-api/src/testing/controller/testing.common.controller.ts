@@ -1,4 +1,5 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { Controller, Get, HttpStatus, VERSION_NEUTRAL } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
 import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
 import { Logger } from 'src/logger/logger.decorator';
@@ -14,8 +15,11 @@ import {
     ResponseTimeout,
 } from 'src/utils/response/response.decorator';
 import { IResponse } from 'src/utils/response/response.interface';
+import { getSchemaResp } from 'src/utils/response/response.serialization';
 import { IResult } from 'ua-parser-js';
 
+@ApiTags('Tests')
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaResp('{ "type": "object"}')})
 @Controller({
     version: VERSION_NEUTRAL,
 })

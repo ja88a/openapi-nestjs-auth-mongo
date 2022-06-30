@@ -42,7 +42,7 @@ async function bootstrap() {
             .setTitle('S*OpenAPI Accounts')
             .setDescription('Accounts management API: users, permissions, roles, authentication')
             .setVersion('1.0')
-            .addTag('account')
+            .addBearerAuth()
             .build();
         const options: SwaggerDocumentOptions =  {
             operationIdFactory: (

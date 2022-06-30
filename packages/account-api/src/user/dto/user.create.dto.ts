@@ -35,12 +35,12 @@ export class UserCreateDto {
     readonly lastName?: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @MinLength(10)
     @MaxLength(14)
     @Type(() => String)
-    @IsStartWith(['628'])
-    readonly mobileNumber: string;
+    @IsStartWith(['+'])
+    readonly mobileNumber?: string;
 
     @IsNotEmpty()
     @IsMongoId()

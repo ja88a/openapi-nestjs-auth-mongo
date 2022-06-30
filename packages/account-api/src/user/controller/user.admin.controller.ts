@@ -10,6 +10,7 @@ import {
     BadRequestException,
     Patch,
     NotFoundException,
+    HttpStatus,
 } from '@nestjs/common';
 import { ENUM_PERMISSIONS } from 'src/permission/permission.constant';
 import {
@@ -44,7 +45,25 @@ import { UserUpdateDto } from '../dto/user.update.dto';
 import { RequestParamGuard } from 'src/utils/request/request.decorator';
 import { UserRequestDto } from '../dto/user.request.dto';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
+import { ApiBearerAuth, ApiExtraModels, ApiHeader, ApiOkResponse, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import { PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_PER_PAGE, PAGINATION_DEFAULT_SORT } from 'src/pagination/pagination.constant';
+import { getSchemaResp, getSchemaRespGen } from 'src/utils/response/response.serialization';
+import { UserGetSerialization } from '../serialization/user.get.serialization';
 
+@ApiTags('Users - admin')
+@ApiBearerAuth()
+@ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A==' })
+@ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered', required: true, example: 1656450618419 })
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaRespGen({ "type": "object" }) })
+@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Unknown role.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNPROCESSABLE_ENTITY, description: 'Invalid data.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
+@ApiExtraModels(UserListSerialization)
+@ApiExtraModels(UserGetSerialization)
 @Controller({
     version: '1',
     path: 'user',
@@ -55,12 +74,22 @@ export class UserAdminController {
         private readonly paginationService: PaginationService,
         private readonly userService: UserService,
         private readonly roleService: RoleService
-    ) {}
+    ) { }
 
+    /**
+     * Retrieve a list of all users
+     */
     @ResponsePaging('user.list')
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ)
     @ErrorMeta(UserAdminController.name, 'list')
     @Get('/list')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(UserListSerialization, true) })
+    @ApiQuery({ name: 'page', description: 'Page number', required: false, example: PAGINATION_DEFAULT_PAGE })
+    @ApiQuery({ name: 'perPage', description: 'Number of entries per page', required: false, example: PAGINATION_DEFAULT_PER_PAGE })
+    @ApiQuery({ name: 'sort', description: 'Expected results sorting', required: false, example: PAGINATION_DEFAULT_SORT })
+    @ApiQuery({ name: 'search', description: 'Input for a text-based search', required: false })
+    @ApiQuery({ name: 'availableSort', description: 'Available fields for sorting search results', required: false })
+    @ApiQuery({ name: 'availableSearch', description: 'Data fields used for text-based searches', required: false })
     async list(
         @Query()
         {
@@ -119,20 +148,29 @@ export class UserAdminController {
         };
     }
 
+    /** 
+     * Retrieve the details of a given user
+     */
     @Response('user.get')
     @UserGetGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ)
     @ErrorMeta(UserAdminController.name, 'get')
     @Get('get/:user')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(UserGetSerialization) })
+    @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
     async get(@GetUser() user: IUserDocument): Promise<IResponse> {
         return this.userService.serializationGet(user);
     }
 
+    /**
+     * Create a new user.
+     */
     @Response('user.create')
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_CREATE)
     @ErrorMeta(UserAdminController.name, 'create')
     @Post('/create')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "_id": { "type": "string", "description": "ID of the created user" } } }) })
     async create(
         @Body()
         body: UserCreateDto
@@ -195,12 +233,17 @@ export class UserAdminController {
         }
     }
 
+    /**
+     * Remove an existing user.
+     */
     @Response('user.delete')
     @UserDeleteGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_DELETE)
     @ErrorMeta(UserAdminController.name, 'delete')
     @Delete('/delete/:user')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
+    @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
     async delete(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.deleteOneById(user._id);
@@ -214,12 +257,17 @@ export class UserAdminController {
         return;
     }
 
+    /**
+     * Update the details of a given user.
+     */
     @Response('user.update')
     @UserUpdateGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
     @ErrorMeta(UserAdminController.name, 'update')
     @Put('/update/:user')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "_id": { "type": "string", "description": "ID of the updated user" } } }) })
+    @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
     async update(
         @GetUser() user: IUserDocument,
         @Body()
@@ -239,12 +287,19 @@ export class UserAdminController {
         };
     }
 
+    /**
+     * De-activate a given user account, set it as inactive.
+     * 
+     * Pause its API accesses.
+     */
     @Response('user.inactive')
     @UserUpdateInactiveGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
     @ErrorMeta(UserAdminController.name, 'inactive')
     @Patch('/update/:user/inactive')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
+    @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
     async inactive(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.inactive(user._id);
@@ -258,12 +313,19 @@ export class UserAdminController {
         return;
     }
 
+    /**
+     * Activate a user account, set it as active.
+     * 
+     * Resume the user access to APIs.
+     */
     @Response('user.active')
     @UserUpdateActiveGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
     @ErrorMeta(UserAdminController.name, 'active')
     @Patch('/update/:user/active')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
+    @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
     async active(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.active(user._id);

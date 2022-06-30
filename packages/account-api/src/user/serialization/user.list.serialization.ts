@@ -1,34 +1,55 @@
+import { ApiHideProperty } from '@nestjs/swagger/dist/decorators';
 import { Exclude, Type } from 'class-transformer';
 import { Types } from 'mongoose';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 
 export class UserListSerialization {
+    /** User unique identifier */
     @Type(() => String)
     readonly _id: string;
 
+    /** User role(s) */
     @Exclude()
     readonly role: Types.ObjectId;
 
+    /** User email */
     readonly email: string;
-    readonly mobileNumber: string;
-    readonly isActive: boolean;
-    readonly firstName: string;
-    readonly lastName: string;
+    /** User mobile phone number */
+    readonly mobileNumber?: string;
 
+    /** User account active status */
+    readonly isActive: boolean;
+
+    /** User first name */
+    readonly firstName: string;
+    /** User last name */
+    readonly lastName?: string;
+
+    /** User profile picture */
     @Exclude()
+    @ApiHideProperty()
     readonly photo?: IAwsS3Response;
 
+    /** User password (hash) */
     @Exclude()
+    @ApiHideProperty()
     readonly password: string;
 
+    /** User password expiration time */
     @Exclude()
+    @ApiHideProperty()
     readonly passwordExpired: Date;
 
+    /** User password's hashing salt */
     @Exclude()
+    @ApiHideProperty()
     readonly salt: string;
 
+    /** User account creation time */
     readonly createdAt: Date;
 
+    /** Last modification time of the user account */
     @Exclude()
+    @ApiHideProperty()
     readonly updatedAt: Date;
 }

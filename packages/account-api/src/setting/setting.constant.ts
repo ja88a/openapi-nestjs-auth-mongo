@@ -7,3 +7,5 @@ export const SETTING_DEFAULT_PER_PAGE = 10;
 export enum ENUM_SETTING_STATUS_CODE_ERROR {
     SETTING_NOT_FOUND_ERROR = 5900,
 }
+
+export const SETTING_API_SWAGGER_TAG = 'Settings - admin';

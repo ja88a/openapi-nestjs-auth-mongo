@@ -6,6 +6,9 @@ import {
     ValidateIf,
 } from 'class-validator';
 
+/**
+ * Authentication API Key creation data
+ */
 export class AuthApiCreateDto {
     @IsNotEmpty()
     @IsString()

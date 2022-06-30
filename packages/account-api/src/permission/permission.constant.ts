@@ -29,3 +29,5 @@ export const PERMISSION_DEFAULT_PER_PAGE = 10;
 export const PERMISSION_DEFAULT_AVAILABLE_SORT = ['code', 'name', 'createdAt'];
 export const PERMISSION_DEFAULT_AVAILABLE_SEARCH = ['code', 'name'];
 export const PERMISSION_DEFAULT_ACTIVE = [true, false];
+
+export const PERMISSION_API_SWAGGER_TAG = 'Permissions - admin'

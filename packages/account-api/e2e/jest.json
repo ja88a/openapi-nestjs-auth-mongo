@@ -28,5 +28,12 @@
     ],
     "transform": {
         "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "globals": {
+        "ts-jest": {
+            "astTransformers": {
+                "before": ["e2e/swagger.transform.js"]
+            }
+        }
     }
 }

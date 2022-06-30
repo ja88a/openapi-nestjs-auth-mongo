@@ -4,6 +4,20 @@
   "compilerOptions": {
     "assets": [
       { "include": "message/languages/**/*", "watchAssets": true }
-    ]
+    ],
+    "plugins": [  {
+      "name": "@nestjs/swagger",
+      "options": {
+        "classValidatorShim": true,
+        "introspectComments": true,
+        "controllerFileNameSuffix": [".controller.ts"],
+        "dtoFileNameSuffix": [
+          ".dto.ts",
+          ".entity.ts",
+          ".serialization.ts",
+          ".schema.ts"
+        ]
+      }
+    }]
   }
 }

@@ -3,7 +3,7 @@ services:
   service:
     build: .
     container_name: sopenapi-account
-    hostname: sopenapi-account
+    hostname: account
     ports:
       - 3000:3000
     networks:
@@ -33,7 +33,7 @@ services:
       - app-network
   redis:
     image: redis:6.2.6
-    container_name: redis
+    container_name: sopenapi-redis
     hostname: redis
     ports:
       - '6379:6379'

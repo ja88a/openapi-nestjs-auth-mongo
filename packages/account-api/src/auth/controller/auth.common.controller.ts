@@ -15,6 +15,7 @@ import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { UserService } from 'src/user/service/user.service';
 import { AuthService } from '../service/auth.service';
 import {
+    AUTH_API_SWAGGER_TAG,
     ENUM_AUTH_STATUS_CODE_ERROR,
     ENUM_AUTH_STATUS_CODE_SUCCESS,
 } from '../auth.constant';
@@ -36,7 +37,21 @@ import { AuthLoginSerialization } from '../serialization/auth.login.serializatio
 import { SuccessException } from 'src/utils/error/exception/error.success.exception';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { Logger } from 'src/logger/logger.decorator';
+import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators'
+import { getSchemaResp, getSchemaRespGen } from 'src/utils/response/response.serialization';
 
+/**
+ * Controller of the common Account Authentication requests
+ */
+@ApiTags(AUTH_API_SWAGGER_TAG)
+@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden request.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Unknown role.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.UNPROCESSABLE_ENTITY, description: 'Invalid data.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
+@ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
+//@ApiExtraModels(AuthLoginSerialization)
 @Controller({
     version: '1',
     path: '/auth',
@@ -45,8 +60,11 @@ export class AuthCommonController {
     constructor(
         private readonly userService: UserService,
         private readonly authService: AuthService
-    ) {}
+    ) { }
 
+    /**
+     * User login based on its credentials: email & password
+     */
     @Response('auth.login', {
         statusCode: ENUM_AUTH_STATUS_CODE_SUCCESS.AUTH_LOGIN_SUCCESS,
     })
@@ -54,6 +72,7 @@ export class AuthCommonController {
     @HttpCode(HttpStatus.OK)
     @ErrorMeta(AuthCommonController.name, 'login')
     @Post('/login')
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
     async login(@Body() body: AuthLoginDto): Promise<IResponse> {
         const rememberMe: boolean = body.rememberMe ? true : false;
         const user: IUserDocument =
@@ -139,11 +158,22 @@ export class AuthCommonController {
         };
     }
 
+    /**
+     * Refresh actual authentication token
+     * The request authorization bearer value must be set to ``refreshToken``
+     *  
+     * @example {"statusCode": 1001, "message": "Login success.", "data": {"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmI4ODYyM2U2NDQ3MWI2NDRiYTc5M2MiLCJtb2JpbGVOdW1iZXIiOiI2MjgxMjMxMjExMTEiLCJlbWFpbCI6InVzZXJAbWFpbC5jb20iLCJyb2xlIjp7Im5hbWUiOiJ1c2VyIiwicGVybWlzc2lvbnMiOltdLCJpc0FjdGl2ZSI6dHJ1ZSwiaXNBZG1pbiI6ZmFsc2V9LCJwYXNzd29yZEV4cGlyZWQiOiIyMDIyLTEyLTI1VDE3OjE1OjMxLjg4NloiLCJpc0FjdGl2ZSI6dHJ1ZSwicmVtZW1iZXJNZSI6dHJ1ZSwibG9naW5EYXRlIjoiMjAyMi0wNi0yOFQxNjoxNzoxMi40MDVaIiwiaWF0IjoxNjU2NDMzMDMyLCJuYmYiOjE2NTY0MzMwMzIsImV4cCI6MTY1ODIzMzAzMn0.c5wbf_z1qHu3tyyK6cqxJbBmBBPKGg2y4nWkAHeq_94", "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmI4ODYyM2U2NDQ3MWI2NDRiYTc5M2MiLCJyZW1lbWJlck1lIjp0cnVlLCJsb2dpbkRhdGUiOiIyMDIyLTA2LTI4VDE2OjE3OjEyLjQwNVoiLCJpYXQiOjE2NTY0MzMwMzIsIm5iZiI6MTY1ODIzMzAzMiwiZXhwIjo0MjQ4NDMzMDMyfQ.c2z03KUoHtvynV71AbInOSE2XC4JQgBsg4z91UJR2Po"} }
+     */
     @Response('auth.refresh')
     @AuthRefreshJwtGuard()
     @HttpCode(HttpStatus.OK)
     @ErrorMeta(AuthCommonController.name, 'refresh')
     @Post('/refresh')
+    @ApiTags(AUTH_API_SWAGGER_TAG)
+    @ApiBearerAuth()
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
+    @ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted' })
+    @ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered' })
     async refresh(
         @User()
         { _id, rememberMe, loginDate }: Record<string, any>,
@@ -202,10 +232,17 @@ export class AuthCommonController {
         };
     }
 
+    /**
+     * Change actual user password
+     */
     @Response('auth.changePassword')
     @AuthJwtGuard()
     @ErrorMeta(AuthCommonController.name, 'changePassword')
     @Patch('/change-password')
+    @ApiBearerAuth()
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
+    @ApiHeader({ name: 'x-api-key', description: 'API Access Key, time-based & encrypted' })
+    @ApiHeader({ name: 'x-timestamp', description: 'timestamp (ms) of the request when triggered' })
     async changePassword(
         @Body() body: AuthChangePasswordDto,
         @User('_id') _id: string
@@ -246,7 +283,7 @@ export class AuthCommonController {
             const password = await this.authService.createPassword(
                 body.newPassword
             );
-
+            
             await this.userService.updatePassword(user._id, password);
         } catch (e) {
             throw new InternalServerErrorException({
