@@ -60,7 +60,7 @@ import { RoleGetSerialization } from '../serialization/role.get.serialization';
 @ApiResponse({ status: HttpStatus.OK, description: 'Request successful.',
     schema: { "type": "object", "properties": { "statusCode": { "type": "integer" }, "message": { "type": "string" }, "data": { "type": "object"} } }
 })
-@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaRespGen({"type": "object"})})
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaRespGen({"type": "object", "additionalProperties": false, "title": "data output"})})
 @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid request.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized request.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden request.', schema: getSchemaResp() })

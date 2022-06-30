@@ -23,7 +23,9 @@
 
 ## Endpoints
 
-Import [endpoints.json][sopenapi-endpoint] into postman or see our [e2e testing][sopenapi-e2e]
+Import [endpoints.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
+
+A swagger Web API web doc is available at ``/api`` if you enable ``APP_SWAGGER_ON`` from the `.env` config.
 
 ## Security
 
@@ -121,7 +123,7 @@ Distributed under the [MIT license][license].
 
 <!-- Repo LINKS -->
 [sopenapi-e2e]: /e2e
-[sopenapi-endpoint]: /endpoints/endpoints.json
+[sopenapi-endpoint]: /endpoints/endpoints-account.json
 
 <!-- License -->
 [license]: LICENSE.md

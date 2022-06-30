@@ -19,7 +19,7 @@ import { getSchemaResp } from 'src/utils/response/response.serialization';
 import { IResult } from 'ua-parser-js';
 
 @ApiTags('Tests')
-@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaResp('{ "type": "object"}')})
+@ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaResp('{ "type": "object", "additionalProperties": false, "title": "data output"}')})
 @Controller({
     version: VERSION_NEUTRAL,
 })

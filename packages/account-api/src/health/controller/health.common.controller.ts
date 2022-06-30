@@ -24,7 +24,7 @@ import { getSchemaResp } from 'src/utils/response/response.serialization';
 
 @ApiTags('Health Checks')
 @ApiResponse({ status: HttpStatus.OK, description: 'Request successful.',
-    schema: { "type": "object", "properties": { "statusCode": { "type": "integer" }, "message": { "type": "string" }, "data": { "type": "object"} } }
+    schema: { "type": "object", "properties": { "statusCode": { "type": "integer" }, "message": { "type": "string" }, "data": { "type": "object", "additionalProperties": false, "title": "data output"} } }
 })
 @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
