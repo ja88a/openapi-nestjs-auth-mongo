@@ -1,11 +1,3 @@
-<!-- 
-[![Contributors][sopenapi-contributors-shield]][sopenapi-contributors]
-[![Forks][sopenapi-forks-shield]][sopenapi-forks]
-[![Stargazers][sopenapi-stars-shield]][sopenapi-stars]
-[![Issues][sopenapi-issues-shield]][sopenapi-issues]
-[![MIT License][sopenapi-license-shield]][license]
--->
-
 [![NestJs][nestjs-shield]][ref-nestjs]
 [![NodeJs][nodejs-shield]][ref-nodejs]
 [![Typescript][typescript-shield]][ref-typescript]
@@ -36,6 +28,66 @@ If you change env value of `APP_MODE` to `secure` that will trigger more `Middle
 3. `ApiKeyGuard`, check api key based on database.
 4. `CorsMiddleware`, check cors based on configs.
 
+## Dev Instructions
+
+### Init your dev environment
+
+0. Set up your ``.env`` file, e.g. from ``.env.sample``, especially your MongoDB connection info
+   
+1. Install your npm packages (if not already done from parent root dir ``lerna bootstrap`` )
+```
+yarn
+```
+
+2. If you want to run a local MongoDB instance you can launch a docker compose container
+```
+docker compose up mongodb 
+```
+
+3. First time only: seed your Mongo DB with an admin user, role & permissions and an authentication API key with ``yarn migrate``
+You can roll that back with the command ``yarn rollback``
+
+### Build
+
+Optional standalone build (towards ``./dist``)
+```
+yarn build
+```
+
+### Run
+
+Start your local NestJS server:
+```
+yarn start
+```
+
+With auto-reload on code changes:
+```
+yarn start:dev
+```
+
+Production mode (NodeJS runtime):
+```
+yarn start:prod
+```
+
+### Test
+
+Run tests (requires a running MongoDB):
+```
+yarn test
+```
+
+Run integration tests (requires a running MongoDB and a valid AWS account):
+```
+yarn test:integration
+```
+
+Run end-to-end tests (requires a running MongoDB):
+```
+yarn test:e2e
+```
+
 ## Features
 
 - Authentication and Authorization (OAuth2, API Key, Basic Auth, Role Management)
@@ -43,6 +95,7 @@ If you change env value of `APP_MODE` to `secure` that will trigger more `Middle
 - Database Migration (NestJs-Command)
 - Storage management with Amazon (AWS) or maybe with Internal Storage (Fs)
 - Server Side Pagination (3 Types)
+- OpenAPI Specs Generation & Web doc UI
 - Url Versioning
 - Request Validation Pipe with Custom Message
 - Custom Error Status Code
@@ -54,7 +107,7 @@ If you change env value of `APP_MODE` to `secure` that will trigger more `Middle
 - Request Timeout, and Custom Timeout (Override) ⌛️
 - Dynamic Setting from Database
 - Maintenance Mode on / off
-- Cache Manager Implementation, can replace with Redis, Memcached, or anything else
+- Cache Manager Implementation, can integrate with Redis, Memcached, or any other
 - Support Docker Installation
 - Support CI/CD with Github Action or Jenkins
 - Husky GitHook For Check Source Code, and Run Test Before Commit
@@ -63,13 +116,13 @@ If you change env value of `APP_MODE` to `secure` that will trigger more `Middle
 ## Todo
 
 Next developments:
-- [ ] Swagger doc
-- [ ] Versioning Serialization (Low Priority)
+- [X] Swagger doc
+- [ ] User API Keys Management: list, get, create, delete
+- [ ] Data Versioning Serialization
 - [ ] Timezone in serialization and dto
 - [ ] Utils unit test
 - [ ] Add `Redis` Configuration
-- [ ] Update Documentation 
-- [ ] Docker Compose File Mongodb Replication Set (Low Priority)
+- [ ] Update Documentation
 
 ## Documentation
 
@@ -81,9 +134,7 @@ Find more details in the ACK docs:
 
 ## Credits
 
-This module benefits a lot from the powerful *NestJS* dev framework. It is also largely inspired by the work done by Andre Christi Kan, a.k.a. [ACK](https://github.com/andrechristikan), and the contributors of the template projet [ACK NestJs Boilerplate Mongoose](https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose) (under MIT license).
-
-We invite every nodejs/nestjs to benefit from this high-ended boilerplate, in terms of code quality, patterns, tests, deployments & documentations!
+This module benefits a lot from the powerful *NestJS* server dev framework. It is also greatly inspired by the work done by Andre Christi Kan, a.k.a. [ACK](https://github.com/andrechristikan), and the contributors of the template projet [ACK NestJs Boilerplate Mongoose](https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose) (MIT license).
 
 ## License
 

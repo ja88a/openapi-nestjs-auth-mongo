@@ -15,11 +15,11 @@
 [![Yarn][yarn-shield]][ref-yarn]
 [![Docker][docker-shield]][ref-docker]
 
-# S*OpenAPI Mono-Repository Root
+# S*OpenAPI
 
 ## Purpose
 
-> A set of Set of NestJs API Services for Restful API, Microservice, or SaaS Project
+> A set of Set of NestJs API Services for Restful API Microservice
 
 Made with following best practices:
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
@@ -29,7 +29,7 @@ Made with following best practices:
 
 ## Important
 
-> Still on trial phase, tests will be based on real projects / specific cases. Updates, customizations and new features are still required.
+> Still on trial phase. Updates, customizations and new features are still required.
 
 You can [Request Feature][sopenapi-issues] or [Report Bug][sopenapi-issues]
 
@@ -69,27 +69,6 @@ make bootstrap
 ```
 lerna run test
 ```
-
-## Features
-
-- Authentication and Authorization (OAuth2, API Key, Basic Auth)
-- MongoDB integration using Mongoose
-- Database Migration
-- Integrate with AWS
-- Server Side Pagination
-- Url Versioning
-- Request Validation Pipe
-- Custom error status code
-- Logger and Debugger
-- Centralize Configuration
-- Centralize Exception Filter
-- Multi-language (i18n)
-- Dynamic Setting from Database 🗿
-- Maintenance Mode on / off
-- Support Docker Installation
-- Support CI/CD with Github Action or Jenkins
-- Husky GitHook For Check Source Code, and Run Test Before Commit
-- Linter with EsLint for Typescript
 
 ## Prerequisites
 
