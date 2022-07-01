@@ -1,7 +1,7 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { AuthApiService } from 'src/auth/service/auth.api.service';
-import { AuthApiBulkService } from 'src/auth/service/auth.api.bulk.service';
+import { AuthApiService } from 'src/apikey/service/auth.api.service';
+import { AuthApiBulkService } from 'src/apikey/service/auth.api.bulk.service';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 
 @Injectable()

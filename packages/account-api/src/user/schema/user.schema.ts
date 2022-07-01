@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
+import { AuthApiEntity } from 'src/apikey/schema/auth.api.schema';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 import { RoleEntity } from 'src/role/schema/role.schema';
 
@@ -79,6 +80,14 @@ export class UserEntity {
         },
     })
     photo?: IAwsS3Response;
+
+    @Prop({
+        required: false,
+        type: Array,
+        default: [],
+        ref: AuthApiEntity.name,
+    })
+    apiKey?: Types.ObjectId[];
 }
 
 export const UserDatabaseName = 'users';

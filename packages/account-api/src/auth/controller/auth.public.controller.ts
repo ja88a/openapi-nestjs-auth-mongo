@@ -8,6 +8,10 @@ import {
     Post,
 } from '@nestjs/common';
 import { ApiHeader, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import { AUTH_API_SWAGGER_TAG } from 'src/auth/auth.constant';
+import { AuthSignUpDto } from 'src/auth/dto/auth.sign-up.dto';
+import { AuthLoginSerialization } from 'src/auth/serialization/auth.login.serialization';
+import { AuthService } from 'src/auth/service/auth.service';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { RoleDocument } from 'src/role/schema/role.schema';
 import { RoleService } from 'src/role/service/role.service';
@@ -19,10 +23,6 @@ import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { Response } from 'src/utils/response/response.decorator';
 import { IResponse } from 'src/utils/response/response.interface';
 import { getSchemaRespGen, getSchemaResp } from 'src/utils/response/response.serialization';
-import { AUTH_API_SWAGGER_TAG } from '../auth.constant';
-import { AuthSignUpDto } from '../dto/auth.sign-up.dto';
-import { AuthLoginSerialization } from '../serialization/auth.login.serialization';
-import { AuthService } from '../service/auth.service';
 
 @ApiTags(AUTH_API_SWAGGER_TAG) 
 @ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A=='})

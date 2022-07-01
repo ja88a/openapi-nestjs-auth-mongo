@@ -1,34 +1,30 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ApiKeyGuard } from 'src/auth/guard/api-key/auth.api-key.guard';
+import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
 import { JwtStrategy } from 'src/auth/guard/jwt/auth.jwt.strategy';
 import { DATABASE_CONNECTION_NAME } from 'src/database/database.constant';
-import { JwtRefreshStrategy } from './guard/jwt-refresh/auth.jwt-refresh.strategy';
 import {
     AuthApiDatabaseName,
     AuthApiEntity,
     AuthApiSchema,
-} from '../apikey/schema/auth.api.schema';
-import { AuthService } from './service/auth.service';
-import { ApiKeyGuard } from 'src/auth/guard/api-key/auth.api-key.guard';
-import { AuthApiBulkService } from 'src/apikey/service/auth.api.bulk.service';
-import { AuthApiService } from 'src/apikey/service/auth.api.service';
-import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
+} from './schema/auth.api.schema';
+import { AuthApiBulkService } from './service/auth.api.bulk.service';
+import { AuthApiService } from './service/auth.api.service';
 
 @Module({
     providers: [
-        AuthService,
         AuthApiService,
         AuthApiBulkService,
         JwtStrategy,
-        JwtRefreshStrategy,
         ApiKeyStrategy,
         {
             provide: APP_GUARD,
             useClass: ApiKeyGuard,
         },
     ],
-    exports: [AuthService, AuthApiService, AuthApiBulkService],
+    exports: [ AuthApiService, AuthApiBulkService],
     controllers: [],
     imports: [
         MongooseModule.forFeature(
@@ -43,4 +39,4 @@ import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
         ),
     ],
 })
-export class AuthModule {}
+export class AuthApiModule {}

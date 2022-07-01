@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/auth/auth.constant';
-import { AuthApiService } from 'src/auth/service/auth.api.service';
+import { AuthApiService } from 'src/apikey/service/auth.api.service';
 import { IRequestApp } from 'src/utils/request/request.interface';
 
 @Injectable()

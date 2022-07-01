@@ -3,21 +3,21 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseEntity } from 'src/database/database.decorator';
 import { Model } from 'mongoose';
-import { AuthApiDocument, AuthApiEntity } from '../schema/auth.api.schema';
+import { AuthApiDocument, AuthApiEntity } from '../../apikey/schema/auth.api.schema';
 import { IDatabaseFindAllOptions } from 'src/database/database.interface';
 import { plainToInstance } from 'class-transformer';
-import { AuthApiListSerialization } from '../serialization/auth.api.list.serialization';
-import { AuthApiGetSerialization } from '../serialization/auth.api.get.serialization';
 import {
     IAuthApiDocument,
     IAuthApiRequestHashedData,
     IAuthApiCreate,
-} from '../auth.interface';
+} from '../auth.api.interface';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { ConfigService } from '@nestjs/config';
 import { HelperHashService } from 'src/utils/helper/service/helper.hash.service';
-import { AuthApiUpdateDto } from '../dto/auth.api.update.dto';
 import { HelperEncryptionService } from 'src/utils/helper/service/helper.encryption.service';
+import { AuthApiUpdateDto } from 'src/apikey/dto/auth.api.update.dto';
+import { AuthApiGetSerialization } from 'src/apikey/serialization/auth.api.get.serialization';
+import { AuthApiListSerialization } from 'src/apikey/serialization/auth.api.list.serialization';
 
 @Injectable()
 export class AuthApiService {
@@ -38,7 +38,7 @@ export class AuthApiService {
         find?: Record<string, any>,
         options?: IDatabaseFindAllOptions
     ): Promise<AuthApiDocument[]> {
-        const users = this.authApiModel.find(find).select({
+        const apiKeys = this.authApiModel.find(find).select({
             name: 1,
             key: 1,
             isActive: 1,
@@ -50,14 +50,14 @@ export class AuthApiService {
             options.limit !== undefined &&
             options.skip !== undefined
         ) {
-            users.limit(options.limit).skip(options.skip);
+            apiKeys.limit(options.limit).skip(options.skip);
         }
 
         if (options && options.sort) {
-            users.sort(options.sort);
+            apiKeys.sort(options.sort);
         }
 
-        return users.lean();
+        return apiKeys.lean();
     }
 
     async getTotal(find?: Record<string, any>): Promise<number> {

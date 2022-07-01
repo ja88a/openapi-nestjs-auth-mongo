@@ -13,7 +13,6 @@ import {
 import { ENUM_USER_STATUS_CODE_ERROR } from 'src/user/user.constant';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { UserService } from 'src/user/service/user.service';
-import { AuthService } from '../service/auth.service';
 import {
     AUTH_API_SWAGGER_TAG,
     ENUM_AUTH_STATUS_CODE_ERROR,
@@ -31,14 +30,15 @@ import {
 } from '../auth.decorator';
 import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
 import { UserDocument } from 'src/user/schema/user.schema';
-import { AuthLoginDto } from '../dto/auth.login.dto';
-import { AuthChangePasswordDto } from '../dto/auth.change-password.dto';
-import { AuthLoginSerialization } from '../serialization/auth.login.serialization';
 import { SuccessException } from 'src/utils/error/exception/error.success.exception';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { Logger } from 'src/logger/logger.decorator';
 import { ApiBearerAuth, ApiHeader, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators'
 import { getSchemaResp, getSchemaRespGen } from 'src/utils/response/response.serialization';
+import { AuthLoginDto } from 'src/auth/dto/auth.login.dto';
+import { AuthChangePasswordDto } from 'src/auth/dto/auth.change-password.dto';
+import { AuthLoginSerialization } from 'src/auth/serialization/auth.login.serialization';
+import { AuthService } from 'src/auth/service/auth.service';
 
 /**
  * Controller of the common Account Authentication requests

@@ -1,6 +1,7 @@
 import { ApiHideProperty } from '@nestjs/swagger/dist/decorators';
 import { Exclude, Type } from 'class-transformer';
 import { Types } from 'mongoose';
+import { IAuthApiDocument } from 'src/apikey/auth.api.interface';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 
 export class UserListSerialization {
@@ -12,7 +13,7 @@ export class UserListSerialization {
     @Exclude()
     readonly role: Types.ObjectId;
 
-    /** User email */
+    /** User email address */
     readonly email: string;
     /** User mobile phone number */
     readonly mobileNumber?: string;
@@ -30,6 +31,11 @@ export class UserListSerialization {
     @ApiHideProperty()
     readonly photo?: IAwsS3Response;
 
+    /** API Access keys */
+    @Exclude()
+    @ApiHideProperty()
+    readonly apikey?: IAuthApiDocument[];
+    
     /** User password (hash) */
     @Exclude()
     @ApiHideProperty()

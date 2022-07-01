@@ -4,13 +4,11 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import {
-    AUTH_EXCLUDE_API_KEY_META_KEY,
-    ENUM_AUTH_STATUS_CODE_ERROR,
-} from 'src/auth/auth.constant';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { HelperNumberService } from 'src/utils/helper/service/helper.number.service';
+import { AUTH_EXCLUDE_API_KEY_META_KEY } from 'src/apikey/auth.api.constant';
+import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/auth/auth.constant';
 
 @Injectable()
 export class ApiKeyGuard extends AuthGuard('api-key') {
@@ -82,7 +80,7 @@ export class ApiKeyGuard extends AuthGuard('api-key') {
                 });
             } else if (
                 statusCode ===
-                ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_TIMESTAMP_NOT_MATCH_WITH_REQUEST_ERROR
+                    ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_TIMESTAMP_NOT_MATCH_WITH_REQUEST_ERROR
             ) {
                 throw new UnauthorizedException({
                     statusCode:
@@ -91,7 +89,7 @@ export class ApiKeyGuard extends AuthGuard('api-key') {
                 });
             } else if (
                 statusCode ===
-                ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_NOT_FOUND_ERROR
+                    ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_NOT_FOUND_ERROR
             ) {
                 throw new UnauthorizedException({
                     statusCode:
@@ -100,7 +98,7 @@ export class ApiKeyGuard extends AuthGuard('api-key') {
                 });
             } else if (
                 statusCode ===
-                ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_INACTIVE_ERROR
+                    ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_INACTIVE_ERROR
             ) {
                 throw new UnauthorizedException({
                     statusCode:

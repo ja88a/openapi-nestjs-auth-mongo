@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
-import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
+import { AuthExcludeApiKey } from 'src/apikey/auth.api.decorator';
 import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
 import { Logger } from 'src/logger/logger.decorator';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
