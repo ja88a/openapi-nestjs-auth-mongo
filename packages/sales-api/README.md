@@ -7,7 +7,7 @@
 [![Yarn][yarn-shield]][ref-yarn]
 [![Docker][docker-shield]][ref-docker]
 
-# S*OpenAPI Access Management
+# S*OpenAPI Sales Service
 
 ## Purpose
 
@@ -15,7 +15,7 @@
 
 ## Endpoints
 
-Import [endpoints.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
+Import [endpoints-sales.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
 
 A Swagger/OpenAPI (OAS3) Web API web doc is available at ``/api/sales/v1`` if you enable ``APP_SWAGGER_ON`` from the `.env` config. The OpenAPI JSON format is available from ``/api/sales/v1-json``, for example http://localhost:3000/api/v1-json
 
@@ -40,7 +40,7 @@ Changing the env value of `APP_MODE` to `secure` (instead of `simple`) does enab
 yarn
 ```
 
-2. If you want to run a local MongoDB instance you can launch a docker compose container
+1. If you want to run a local MongoDB instance you can launch a docker container via compose:
 ```
 docker compose up mongodb 
 ```

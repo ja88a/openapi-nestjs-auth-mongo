@@ -7,7 +7,7 @@
 [![Yarn][yarn-shield]][ref-yarn]
 [![Docker][docker-shield]][ref-docker]
 
-# S*OpenAPI Access Management
+# S*OpenAPI Accounts &amp; Access Management
 
 ## Purpose
 
@@ -15,7 +15,7 @@
 
 ## Endpoints
 
-Import [endpoints.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
+Import [endpoints-account.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
 
 A swagger Web API web doc is available at ``/api/account/v1`` if you enable ``APP_SWAGGER_ON`` from the `.env` config. Corresponding OpenAPI JSON specs are available from ``/api/account/v1-json``, e.g. http://localhost:3000/api/account/v1-json
 
@@ -93,22 +93,22 @@ yarn test:e2e
 - Authentication and Authorization (OAuth2, API Key, Basic Auth, Role Management)
 - MongoDB integration using Mongoose
 - Database Migration (NestJs-Command)
-- Storage management with Amazon (AWS) or maybe with Internal Storage (Fs)
-- Server Side Pagination (3 Types)
+- File storage management with AWS S3 bucket
+- Server side pagination
 - OpenAPI Specs Generation & Web doc UI
 - Url Versioning
 - Request Validation Pipe with Custom Message
 - Custom Error Status Code
 - Logger (Morgan) and Debugger (Winston)
-- Centralize Configuration
-- Centralize Exception Filter, and Custom Error Structure
-- Multi-language (i18n)
-- Timezone Awareness, and Custom Timezone
-- Request Timeout, and Custom Timeout (Override) ⌛️
-- Dynamic Setting from Database
-- Maintenance Mode on / off
-- Cache Manager Implementation, can integrate with Redis, Memcached, or any other
-- Support Docker Installation
+- Centralized configuration
+- Centralized Exception filters, and custom error structures
+- Multi-language support (i18n)
+- Timezone awareness, and custom timezone
+- Request timeout, and custom timeout (override)
+- Dynamic load of settings from DB
+- Maintenance mode on|off
+- Cache manager implementation, integrating with Redis, Memcached, or any other
+- Support Docker installation
 - Support CI/CD with Github Action or Jenkins
 - Husky GitHook For Check Source Code, and Run Test Before Commit
 - Linter with EsLint for Typescript
@@ -117,12 +117,11 @@ yarn test:e2e
 
 Next developments:
 - [X] Swagger doc
-- [ ] User API Keys Management: list, get, create, delete
-- [ ] Data Versioning Serialization
-- [ ] Timezone in serialization and dto
-- [ ] Utils unit test
-- [ ] Add `Redis` Configuration
-- [ ] Update Documentation
+- [-] User API Keys Management: list, get, create, delete
+- [ ] Data Versioning in serializations
+- [ ] Add `Redis` cache configuration
+- [ ] Multi-layer docker images
+- [ ] Doc update
 
 ## Documentation
 

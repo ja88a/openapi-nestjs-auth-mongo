@@ -19,19 +19,21 @@
 
 ## Purpose
 
-> A set of Set of NestJs API Services for Restful API Microservice
+> A mono repo to develop a set of NestJs-baed Open API Services, Restful API Microservices
 
 Made with following best practices:
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
 - [The Twelve-Factor App](https://12factor.net)
 - [Microservice Architecture](https://microservices.io)
-- NestJs Habit.
+
+## Modules
+- [account-api](packages/account-api/): User accounts, permissions, service settings & API keys management
+- [common-utils](packages/common-utils): Common set of utilities for the MS APIs: authentication, security guards, pagination, filters, etc.
+- [sales-api](packages/sales-api): set of APIs to query sales info
 
 ## Important
 
-> Still on trial phase. Updates, customizations and new features are still required.
-
-You can [Request Feature][sopenapi-issues] or [Report Bug][sopenapi-issues]
+> Work in progress. Updates, customizations and new features are still required.
 
 ## Built With
 
@@ -50,7 +52,7 @@ Describes which version of the main packages and main tools.
 | [Docker Compose](ref-docker-compose) | v2.x |
 
 
-## Local Dev Instructions
+## Dev Instructions
 
 ### Init your dev environment
 
@@ -77,13 +79,12 @@ lerna run test
 3. Understand [ExpressJs Fundamental](https://nodejs.org), a NodeJs based Framework. It helps in understanding how the NestJs Framework works.
 4. Understand what NoSql is and how it works as a database, especially [MongoDB.](https://docs.mongodb.com)
 
-## Todo
+## TODOs
 
 Next developments:
-- [ ] Play on the prod MS granularity, via Nestjs composition & gnerated Docker images
-- [ ] Configs management across all modules
+- [ ] Production: Nestjs composition and Docker images generation
 - [ ] Complete CI/CD of modules using Github actions
-- [ ] Integrate Terraform
+- [ ] Integrate Terraform for deploying the containers on k8s
 - [ ] Deploy on Azure Kubernetes Services
 
 ## License
