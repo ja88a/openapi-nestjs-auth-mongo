@@ -24,3 +24,5 @@ export const USER_DEFAULT_AVAILABLE_SEARCH = [
     'email',
     'mobileNumber',
 ];
+
+export const USER_API_SWAGGER_TAG = 'User';

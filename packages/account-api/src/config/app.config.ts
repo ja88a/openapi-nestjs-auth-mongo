@@ -14,7 +14,7 @@ export default registerAs(
             host: process.env.APP_HOST || 'localhost',
             port: Number.parseInt(process.env.APP_PORT) || 3000,
         },
-        globalPrefix: '/api',
+        globalPrefix: '/api/account',
         versioning: {
             on: process.env.APP_VERSIONING === 'true' || false,
             prefix: 'v',

@@ -11,6 +11,7 @@ import { ApiBearerAuth, ApiExtraModels, ApiHeader, ApiOkResponse, ApiResponse, A
 import { AuthPublicJwtGuard } from 'src/auth/auth.decorator';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 import { AwsS3Service } from 'src/aws/service/aws.s3.service';
+import { USER_API_SWAGGER_TAG } from 'src/user/user.constant';
 import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { ENUM_FILE_TYPE } from 'src/utils/file/file.constant';
@@ -23,7 +24,7 @@ import { UserService } from '../service/user.service';
 import { GetUser, UserProfileGuard } from '../user.decorator';
 import { IUserDocument } from '../user.interface';
 
-@ApiTags('Users')
+@ApiTags(USER_API_SWAGGER_TAG)
 @ApiBearerAuth()
 @ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A=='})
 @ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered', required: true, example: 1656450618419})

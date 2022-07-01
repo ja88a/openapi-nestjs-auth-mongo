@@ -29,11 +29,7 @@ import { getSchemaResp } from 'src/utils/response/response.serialization';
 @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
 @Controller({
-    version: '1',
-    path: 'role',
-})
-@Controller({
-    version: VERSION_NEUTRAL,
+    version: '1', // VERSION_NEUTRAL
     path: 'health',
 })
 export class HealthCommonController {

@@ -17,16 +17,16 @@
 
 Import [endpoints.json][sopenapi-endpoint] into Postman or see [e2e testing][sopenapi-e2e].
 
-A swagger Web API web doc is available at ``/api`` if you enable ``APP_SWAGGER_ON`` from the `.env` config.
+A swagger Web API web doc is available at ``/api/account/v1`` if you enable ``APP_SWAGGER_ON`` from the `.env` config. Corresponding OpenAPI JSON specs are available from ``/api/account/v1-json``, e.g. http://localhost:3000/api/account/v1-json
 
 ## Security
 
-If you change env value of `APP_MODE` to `secure` that will trigger more `Middleware` and `Guard`.
+Changing the env value of `APP_MODE` to `secure` (instead of `simple`) does enable more security enhancements, at `Middleware` and `Guard` levels.
 
-1. `TimestampMiddleware`, tolerant 5 minutes of request.
-2. `UserAgentMiddleware`, whitelist of user agent.
-3. `ApiKeyGuard`, check api key based on database.
-4. `CorsMiddleware`, check cors based on configs.
+1. `ApiKeyGuard`, check for the submitted API Key against the database.
+2. `TimestampMiddleware`, enable a tolerance of 2 minutes against requests' provided time stamp (for the API Key based authentication protocol).
+3. `CorsMiddleware`, validate requests against the CORS security settings.
+4. `UserAgentMiddleware`, enable white-listing requests' user agents.
 
 ## Dev Instructions
 

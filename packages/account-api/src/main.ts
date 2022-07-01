@@ -58,7 +58,7 @@ async function bootstrap() {
             customSiteTitle: 'S*OpenAPI Docs',
             //customfavIcon: 
         };
-        SwaggerModule.setup('api/v1', app, document, customOptions);
+        SwaggerModule.setup('api/account/v1', app, document, customOptions);
     } 
 
     // Listen

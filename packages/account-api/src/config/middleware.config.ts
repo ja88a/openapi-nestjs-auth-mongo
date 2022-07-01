@@ -53,8 +53,12 @@ export default registerAs(
                 : ms('5m'), // 5 mins
         },
         cache: {
-            ttl: ms('30s'), // 30sec
-            max: 100, // maximum number of items in cache,
+            ttl: process.env.MIDDLEWARE_CACHE_TTL 
+                ? ms(process.env.MIDDLEWARE_CACHE_TTL)
+                : ms('30s'), // Cache entries default time to live: 30sec
+            max: process.env.MIDDLEWARE_CACHE_MAX_ENTRIES
+                ? ms(process.env.MIDDLEWARE_CACHE_MAX_ENTRIES)
+                : 100, // maximum number of items in cache: 100
         },
         timeout: {
             in: process.env.MIDDLEWARE_TIMEOUT

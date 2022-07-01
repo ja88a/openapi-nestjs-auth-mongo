@@ -26,7 +26,7 @@ import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { UserService } from '../service/user.service';
 import { RoleService } from 'src/role/service/role.service';
 import { IUserCheckExist, IUserDocument } from '../user.interface';
-import { ENUM_USER_STATUS_CODE_ERROR } from '../user.constant';
+import { ENUM_USER_STATUS_CODE_ERROR, USER_API_SWAGGER_TAG } from '../user.constant';
 import { PaginationService } from 'src/pagination/service/pagination.service';
 import { AuthService } from 'src/auth/service/auth.service';
 import {
@@ -50,7 +50,7 @@ import { PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_PER_PAGE, PAGINATION_DEFAUL
 import { getSchemaResp, getSchemaRespGen } from 'src/utils/response/response.serialization';
 import { UserGetSerialization } from '../serialization/user.get.serialization';
 
-@ApiTags('Users - admin')
+@ApiTags(USER_API_SWAGGER_TAG)
 @ApiBearerAuth()
 @ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A==' })
 @ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered', required: true, example: 1656450618419 })
