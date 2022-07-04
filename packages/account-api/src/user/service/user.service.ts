@@ -139,7 +139,7 @@ export class UserService {
         firstName,
         lastName,
         password,
-        passwordExpired,
+        passwordExpiration,
         salt,
         email,
         mobileNumber,
@@ -154,9 +154,8 @@ export class UserService {
             isActive: true,
             lastName: lastName || undefined,
             salt,
-            passwordExpired,
+            passwordExpiration,
         };
-
         const create: UserDocument = new this.userModel(user);
         return create.save();
     }
@@ -206,9 +205,9 @@ export class UserService {
         };
     }
 
-    async updatePhoto(_id: string, aws: IAwsS3Response): Promise<UserDocument> {
+    async updatePicture(_id: string, aws: IAwsS3Response): Promise<UserDocument> {
         const user: UserDocument = await this.userModel.findById(_id);
-        user.photo = aws;
+        user.picture = aws;
 
         return user.save();
     }
@@ -224,25 +223,25 @@ export class UserService {
 
     async updatePassword(
         _id: string,
-        { salt, passwordHash, passwordExpired }: IAuthPassword
+        { salt, passwordHash, passwordExpiration }: IAuthPassword
     ): Promise<UserDocument> {
-        const auth: UserDocument = await this.userModel.findById(_id);
+        const user: UserDocument = await this.userModel.findById(_id);
 
-        auth.password = passwordHash;
-        auth.passwordExpired = passwordExpired;
-        auth.salt = salt;
+        user.password = passwordHash;
+        user.passwordExpiration = passwordExpiration;
+        user.salt = salt;
 
-        return auth.save();
+        return user.save();
     }
 
     async updatePasswordExpired(
         _id: string,
-        passwordExpired: Date
+        passwordExpiration: Date
     ): Promise<UserDocument> {
-        const auth: UserDocument = await this.userModel.findById(_id);
-        auth.passwordExpired = passwordExpired;
+        const user: UserDocument = await this.userModel.findById(_id);
+        user.passwordExpiration = passwordExpiration;
 
-        return auth.save();
+        return user.save();
     }
 
     async inactive(_id: string): Promise<UserDocument> {

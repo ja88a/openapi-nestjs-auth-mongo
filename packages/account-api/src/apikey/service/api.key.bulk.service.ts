@@ -3,13 +3,13 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseEntity } from 'src/database/database.decorator';
 import { Model } from 'mongoose';
-import { AuthApiDocument, AuthApiEntity } from '../schema/auth.api.schema';
+import { ApiKeyDocument, ApiKeyEntity } from '../schema/api.key.schema';
 
 @Injectable()
-export class AuthApiBulkService {
+export class ApiKeyBulkService {
     constructor(
-        @DatabaseEntity(AuthApiEntity.name)
-        private readonly authApiModel: Model<AuthApiDocument>
+        @DatabaseEntity(ApiKeyEntity.name)
+        private readonly authApiModel: Model<ApiKeyDocument>
     ) {}
 
     async deleteMany(find: Record<string, any>) {

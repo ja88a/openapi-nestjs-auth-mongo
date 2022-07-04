@@ -20,7 +20,7 @@ export class AuthLoginSerialization {
     readonly email: string;
     readonly mobileNumber: string;
     readonly isActive: boolean;
-    readonly passwordExpired: Date;
+    readonly passwordExpiration: Date;
     readonly loginDate: Date;
     readonly rememberMe: boolean;
 
@@ -31,7 +31,7 @@ export class AuthLoginSerialization {
     readonly lastName: string;
 
     @Exclude()
-    readonly photo?: IAwsS3Response;
+    readonly picture?: IAwsS3Response;
 
     @Exclude()
     readonly password: string;

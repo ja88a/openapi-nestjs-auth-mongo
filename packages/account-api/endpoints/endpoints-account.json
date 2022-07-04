@@ -350,22 +350,27 @@
 				{
 					"name": "sign up",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [
 							{
 								"key": "x-timestamp",
 								"value": "{{xTimestamp}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "x-api-key",
 								"value": "{{xApiKey}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"user@mail.com\",\n    \"mobileNumber\": \"628123121111\",\n    \"firstName\": \"test\",\n    \"lastName\": \"aaa\",\n    \"password\": \"aaAA@@123444\"\n}",
+							"raw": "{\n    \"email\": \"user@mail.com\",\n    \"mobileNumber\": \"+6281231211\",\n    \"firstName\": \"test\",\n    \"lastName\": \"aaa\",\n    \"password\": \"aaAA@@123444\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1080,12 +1085,14 @@
 							{
 								"key": "x-timestamp",
 								"value": "{{xTimestamp}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "x-api-key",
 								"value": "{{xApiKey}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -2775,7 +2782,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"andre@mail.com\",\n    \"firstName\": \"andre\",\n    \"lastName\": \"ck\",\n    \"mobileNumber\": \"6281321312212\",\n    \"password\": \"aa@AA123456\",\n    \"role\": \"6298cb290280eeabb17f9d33\"\n}",
+									"raw": "{\n    \"email\": \"andre@mail.com\",\n    \"firstName\": \"andre\",\n    \"lastName\": \"ck\",\n    \"mobileNumber\": \"+336281321312\",\n    \"password\": \"aa@AA123456\",\n    \"role\": \"62c2b0d0a231672cde3594ad\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -7967,21 +7974,25 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "x-timestamp",
 								"value": "{{xTimestamp}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "x-custom-lang",
-								"value": "en,id",
+								"value": "en,fr",
 								"type": "text"
 							},
 							{
 								"key": "x-timezone",
-								"value": "Asia/Jakarta",
+								"value": "Europe/Paris",
 								"type": "text"
 							}
 						],
@@ -8133,12 +8144,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [
 							{
 								"key": "x-timestamp",
 								"value": "{{xTimestamp}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "x-custom-lang",
@@ -8147,8 +8162,9 @@
 							},
 							{
 								"key": "x-timezone",
-								"value": "Asia/Jakarta",
-								"type": "text"
+								"value": "Europe/Paris",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": {

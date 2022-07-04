@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
-import { AuthApiEntity } from 'src/apikey/schema/auth.api.schema';
+import { ApiKeyEntity } from 'src/apikey/schema/api.key.schema';
 import { RoleEntity } from 'src/role/schema/role.schema';
 import { UserEntity } from 'src/user/schema/user.schema';
 import { ENUM_REQUEST_METHOD } from 'src/utils/request/request.constant';
@@ -45,7 +45,7 @@ export class LoggerEntity {
 
     @Prop({
         required: false,
-        ref: AuthApiEntity.name,
+        ref: ApiKeyEntity.name,
     })
     apiKey?: Types.ObjectId;
 

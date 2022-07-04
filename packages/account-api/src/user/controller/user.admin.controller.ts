@@ -49,6 +49,8 @@ import { ApiBearerAuth, ApiExtraModels, ApiHeader, ApiOkResponse, ApiParam, ApiQ
 import { PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_PER_PAGE, PAGINATION_DEFAULT_SORT } from 'src/pagination/pagination.constant';
 import { getSchemaResp, getSchemaRespGen } from 'src/utils/response/response.serialization';
 import { UserGetSerialization } from '../serialization/user.get.serialization';
+import { Logger } from 'src/logger/logger.decorator';
+import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
 
 @ApiTags(USER_API_SWAGGER_TAG)
 @ApiBearerAuth()
@@ -81,6 +83,7 @@ export class UserAdminController {
      */
     @ResponsePaging('user.list')
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ)
+    @Logger(ENUM_LOGGER_ACTION.USER_LIST, { tags: ['user', 'list'] })
     @ErrorMeta(UserAdminController.name, 'list')
     @Get('/list')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(UserListSerialization, true) })
@@ -155,6 +158,7 @@ export class UserAdminController {
     @UserGetGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ)
+    @Logger(ENUM_LOGGER_ACTION.USER_GET, { tags: ['user', 'get'] })
     @ErrorMeta(UserAdminController.name, 'get')
     @Get('get/:user')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(UserGetSerialization) })
@@ -168,6 +172,7 @@ export class UserAdminController {
      */
     @Response('user.create')
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_CREATE)
+    @Logger(ENUM_LOGGER_ACTION.USER_CREATE, { tags: ['user', 'create'] })
     @ErrorMeta(UserAdminController.name, 'create')
     @Post('/create')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "_id": { "type": "string", "description": "ID of the created user" } } }) })
@@ -218,7 +223,7 @@ export class UserAdminController {
                 mobileNumber: body.mobileNumber,
                 role: body.role,
                 password: password.passwordHash,
-                passwordExpired: password.passwordExpired,
+                passwordExpiration: password.passwordExpiration,
                 salt: password.salt,
             });
 
@@ -240,10 +245,11 @@ export class UserAdminController {
     @UserDeleteGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_DELETE)
+    @Logger(ENUM_LOGGER_ACTION.USER_DELETE, { tags: ['user', 'delete'] })
     @ErrorMeta(UserAdminController.name, 'delete')
     @Delete('/delete/:user')
-    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
     @ApiParam({ name: 'user', description: 'Target user ID', type: 'string' })
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
     async delete(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.deleteOneById(user._id);
@@ -264,6 +270,7 @@ export class UserAdminController {
     @UserUpdateGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
+    @Logger(ENUM_LOGGER_ACTION.USER_UPDATE, { tags: ['user', 'update'] })
     @ErrorMeta(UserAdminController.name, 'update')
     @Put('/update/:user')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "_id": { "type": "string", "description": "ID of the updated user" } } }) })
@@ -296,6 +303,7 @@ export class UserAdminController {
     @UserUpdateInactiveGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
+    @Logger(ENUM_LOGGER_ACTION.USER_SET_INACTIVE, { tags: ['user', 'setInactive'] })
     @ErrorMeta(UserAdminController.name, 'inactive')
     @Patch('/update/:user/inactive')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
@@ -322,6 +330,7 @@ export class UserAdminController {
     @UserUpdateActiveGuard()
     @RequestParamGuard(UserRequestDto)
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.USER_READ, ENUM_PERMISSIONS.USER_UPDATE)
+    @Logger(ENUM_LOGGER_ACTION.USER_SET_ACTIVE, { tags: ['user', 'setActive'] })
     @ErrorMeta(UserAdminController.name, 'active')
     @Patch('/update/:user/active')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })

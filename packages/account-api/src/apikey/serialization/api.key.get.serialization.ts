@@ -1,6 +1,6 @@
 import { Exclude, Type } from 'class-transformer';
 
-export class AuthApiGetSerialization {
+export class ApiKeyGetSerialization {
     @Type(() => String)
     readonly _id: string;
 

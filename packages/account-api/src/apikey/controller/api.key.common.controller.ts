@@ -2,10 +2,10 @@ import { Controller } from "@nestjs/common/decorators/core";
 import { Get } from "@nestjs/common/decorators/http";
 import { HttpStatus } from "@nestjs/common/enums";
 import { ApiExtraModels, ApiHeader, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger/dist/decorators";
-import { APIKEY_TOKEN_API_SWAGGER_TAG } from "src/apikey/auth.api.constant";
-import { AuthApiDocument } from "src/apikey/schema/auth.api.schema";
-import { AuthApiListSerialization } from "src/apikey/serialization/auth.api.list.serialization";
-import { AuthApiService } from "src/apikey/service/auth.api.service";
+import { APIKEY_TOKEN_API_SWAGGER_TAG } from "src/apikey/api.key.constant";
+import { ApiKeyDocument } from "src/apikey/schema/api.key.schema";
+import { ApiKeyListSerialization } from "src/apikey/serialization/api.key.list.serialization";
+import { ApiKeyService } from "src/apikey/service/api.key.service";
 import { AuthJwtGuard, AuthAdminJwtGuard } from "src/auth/auth.decorator";
 import { ENUM_PERMISSIONS } from "src/permission/permission.constant";
 import { UserService } from "src/user/service/user.service";
@@ -28,15 +28,15 @@ import { getSchemaResp } from "src/utils/response/response.serialization";
 @ApiResponse({ status: HttpStatus.UNPROCESSABLE_ENTITY, description: 'Invalid data.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.INTERNAL_SERVER_ERROR, description: 'Service processing error.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.SERVICE_UNAVAILABLE, description: 'Service unavailable.', schema: getSchemaResp() })
-@ApiExtraModels(AuthApiListSerialization)
+@ApiExtraModels(ApiKeyListSerialization)
 @Controller({
     version: '1',
     path: '/apikey',
 })
-export class AuthApiCommonController {
+export class ApiKeyCommonController {
     constructor(
         private readonly userService: UserService,
-        private readonly authApiService: AuthApiService
+        private readonly authApiService: ApiKeyService
     ) { }
 
     /** 
@@ -44,16 +44,16 @@ export class AuthApiCommonController {
      */
     @AuthJwtGuard()
     @AuthAdminJwtGuard(ENUM_PERMISSIONS.APIKEY_READ)
-    @ErrorMeta(AuthApiCommonController.name, 'list')
+    @ErrorMeta(ApiKeyCommonController.name, 'list')
     @Get('/list')
-    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(AuthApiListSerialization, true) })
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp(ApiKeyListSerialization, true) })
     async list(
         @GetUser() user: IUserDocument
     ): Promise<IResponse> {
 
-        const apiKeys: AuthApiDocument[] = await this.authApiService.findAll();
+        const apiKeys: ApiKeyDocument[] = await this.authApiService.findAll();
 
-        const data: AuthApiListSerialization[] =
+        const data: ApiKeyListSerialization[] =
             await this.authApiService.serializationList(apiKeys);
 
         return {

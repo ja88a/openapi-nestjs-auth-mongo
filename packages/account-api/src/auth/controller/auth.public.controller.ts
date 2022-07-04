@@ -7,11 +7,14 @@ import {
     NotFoundException,
     Post,
 } from '@nestjs/common';
-import { ApiHeader, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import { AuthExcludeApiKey } from 'src/apikey/api.key.decorator';
 import { AUTH_API_SWAGGER_TAG } from 'src/auth/auth.constant';
 import { AuthSignUpDto } from 'src/auth/dto/auth.sign-up.dto';
 import { AuthLoginSerialization } from 'src/auth/serialization/auth.login.serialization';
 import { AuthService } from 'src/auth/service/auth.service';
+import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
+import { Logger } from 'src/logger/logger.decorator';
 import { ENUM_ROLE_STATUS_CODE_ERROR } from 'src/role/role.constant';
 import { RoleDocument } from 'src/role/schema/role.schema';
 import { RoleService } from 'src/role/service/role.service';
@@ -25,8 +28,8 @@ import { IResponse } from 'src/utils/response/response.interface';
 import { getSchemaRespGen, getSchemaResp } from 'src/utils/response/response.serialization';
 
 @ApiTags(AUTH_API_SWAGGER_TAG) 
-@ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A=='})
-@ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered', required: true, example: 1656450618419})
+//@ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted', required: true, example: 'qwertyuiop12345zxcvbnmkjh:U2FsdGVkX1+jjNsr1IYqGeuQtwZR/pn1D2II4SvKhbyT9uvZND20Eldw4yetD1lLiHEIsP14O0o9HD68QSQX9HHXBuPCkarRBxukKnK0jUKLtIfbyJUvZDu8olEcmuY1LL7eo/4dmKPigWYxaXYzYx8Rp0r65ODX5uZwGZmKg/5IWYA/mFA2N1Op+zFurfA5XIgGeluXr0xpvpGmRSiJ+A=='})
+//@ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered', required: true, example: 1656450618419})
 @ApiResponse({ status: HttpStatus.OK, description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "additionalProperties": false, "title": "data output" }) })
 @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid request.', schema: getSchemaResp() })
 @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized request.', schema: getSchemaResp() })
@@ -50,6 +53,8 @@ export class AuthPublicController {
      * Register a new user account by signing up with an email.
      */
     @Response('auth.signUp')
+    @Logger(ENUM_LOGGER_ACTION.SIGNUP, { tags: ['signup', 'withEmail'] })
+    @AuthExcludeApiKey()
     @ErrorMeta(AuthPublicController.name, 'signUp')
     @Post('/sign-up')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
@@ -104,7 +109,7 @@ export class AuthPublicController {
                 mobileNumber,
                 role: role._id,
                 password: password.passwordHash,
-                passwordExpired: password.passwordExpired,
+                passwordExpiration: password.passwordExpiration,
                 salt: password.salt,
             });
 

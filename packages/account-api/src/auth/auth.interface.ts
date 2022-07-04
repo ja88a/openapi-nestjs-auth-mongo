@@ -1,7 +1,7 @@
 export interface IAuthPassword {
     salt: string;
     passwordHash: string;
-    passwordExpired: Date;
+    passwordExpiration: Date;
 }
 
 export interface IAuthPayloadOptions {

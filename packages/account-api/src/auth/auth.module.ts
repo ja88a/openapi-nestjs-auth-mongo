@@ -5,21 +5,21 @@ import { JwtStrategy } from 'src/auth/guard/jwt/auth.jwt.strategy';
 import { DATABASE_CONNECTION_NAME } from 'src/database/database.constant';
 import { JwtRefreshStrategy } from './guard/jwt-refresh/auth.jwt-refresh.strategy';
 import {
-    AuthApiDatabaseName,
-    AuthApiEntity,
-    AuthApiSchema,
-} from '../apikey/schema/auth.api.schema';
+    ApiKeyDatabaseName,
+    ApiKeyEntity,
+    ApiKeySchema,
+} from '../apikey/schema/api.key.schema';
 import { AuthService } from './service/auth.service';
 import { ApiKeyGuard } from 'src/auth/guard/api-key/auth.api-key.guard';
-import { AuthApiBulkService } from 'src/apikey/service/auth.api.bulk.service';
-import { AuthApiService } from 'src/apikey/service/auth.api.service';
+import { ApiKeyBulkService } from 'src/apikey/service/api.key.bulk.service';
+import { ApiKeyService } from 'src/apikey/service/api.key.service';
 import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
 
 @Module({
     providers: [
         AuthService,
-        AuthApiService,
-        AuthApiBulkService,
+        ApiKeyService,
+        ApiKeyBulkService,
         JwtStrategy,
         JwtRefreshStrategy,
         ApiKeyStrategy,
@@ -28,15 +28,15 @@ import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
             useClass: ApiKeyGuard,
         },
     ],
-    exports: [AuthService, AuthApiService, AuthApiBulkService],
+    exports: [AuthService, ApiKeyService, ApiKeyBulkService],
     controllers: [],
     imports: [
         MongooseModule.forFeature(
             [
                 {
-                    name: AuthApiEntity.name,
-                    schema: AuthApiSchema,
-                    collection: AuthApiDatabaseName,
+                    name: ApiKeyEntity.name,
+                    schema: ApiKeySchema,
+                    collection: ApiKeyDatabaseName,
                 },
             ],
             DATABASE_CONNECTION_NAME

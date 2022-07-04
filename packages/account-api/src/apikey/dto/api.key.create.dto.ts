@@ -9,7 +9,7 @@ import {
 /**
  * Authentication API Key creation data
  */
-export class AuthApiCreateDto {
+export class ApiKeyCreateDto {
     @IsNotEmpty()
     @IsString()
     @MaxLength(50)

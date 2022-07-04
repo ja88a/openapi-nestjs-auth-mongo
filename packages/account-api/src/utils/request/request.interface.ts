@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { IAuthApiPayload } from 'src/apikey/auth.api.interface';
+import { IApiKeyAuthPayload } from 'src/apikey/api.key.interface';
 import { IResult } from 'ua-parser-js';
 
 export interface IRequestApp extends Request {
@@ -8,7 +8,7 @@ export interface IRequestApp extends Request {
     timezone: string;
     timestamp: string;
     customLang: string;
-    apiKey?: IAuthApiPayload;
+    apiKey?: IApiKeyAuthPayload;
     user?: Record<string, any>;
     version?: string;
 }

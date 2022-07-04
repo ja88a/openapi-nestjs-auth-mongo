@@ -5,7 +5,7 @@ on:
     - main
     paths:
     - "packages/account-api/**"
-    - ".github/workflows/ci-auth.yml"
+    - ".github/workflows/ci-accaount.yml"
 
 defaults:
   run:

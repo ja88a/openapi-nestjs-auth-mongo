@@ -15,7 +15,7 @@ describe('AuthService', () => {
         _id: '623cb7fd37a861a10bac2c91',
         isActive: true,
         salt: '$2b$08$GZfqgaDMPpWQ3lJEGQ8Ueu',
-        passwordExpired: new Date('2023-03-24T18:27:09.500Z'),
+        passwordExpiration: new Date('2023-03-24T18:27:09.500Z'),
         password:
             '$2b$08$GZfqgaDMPpWQ3lJEGQ8Ueu1vJ3C6G3stnkS/5e61bK/4f1.Fuw2Eq',
         role: {
@@ -438,20 +438,20 @@ describe('AuthService', () => {
         it('should be called', async () => {
             const test = jest.spyOn(authService, 'checkPasswordExpired');
 
-            await authService.checkPasswordExpired(user.passwordExpired);
-            expect(test).toHaveBeenCalledWith(user.passwordExpired);
+            await authService.checkPasswordExpired(user.passwordExpiration);
+            expect(test).toHaveBeenCalledWith(user.passwordExpiration);
         });
 
         it('should be success false', async () => {
             const result = await authService.checkPasswordExpired(
-                user.passwordExpired
+                user.passwordExpiration
             );
             jest.spyOn(authService, 'checkPasswordExpired').mockImplementation(
                 async () => result
             );
 
             expect(
-                await authService.checkPasswordExpired(user.passwordExpired)
+                await authService.checkPasswordExpired(user.passwordExpiration)
             ).toBe(result);
         });
 

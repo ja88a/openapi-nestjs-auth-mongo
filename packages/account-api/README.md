@@ -95,18 +95,18 @@ yarn test:e2e
 - Database Migration (NestJs-Command)
 - File storage management with AWS S3 bucket
 - Server side pagination
-- OpenAPI Specs Generation & Web doc UI
-- Url Versioning
+- OpenAPI Specs Generation & Web doc
+- URL-based Service Versioning
 - Request Validation Pipe with Custom Message
 - Custom Error Status Code
-- Logger (Morgan) and Debugger (Winston)
-- Centralized configuration
-- Centralized Exception filters, and custom error structures
-- Multi-language support (i18n)
+- API Acesses and processing Logger (Morgan) and Debugger (Winston)
+- Centralized configuration management
+- Centralized Exceptions filtering, with custom error structures
+- Multi-language support (i18n) for response messages
 - Timezone awareness, and custom timezone
 - Request timeout, and custom timeout (override)
-- Dynamic load of settings from DB
-- Maintenance mode on|off
+- Automated load of settings from the DB
+- Maintenance mode support: on|off
 - Cache manager implementation, integrating with Redis, Memcached, or any other
 - Support Docker installation
 - Support CI/CD with Github Action or Jenkins
@@ -125,15 +125,33 @@ Next developments:
 
 ## Documentation
 
-Find more details in the ACK docs:
+### General
+
+Find more details and dev guidances in the ACK docs:
 
 - [Documentation][ack-nestjs-mongoose-boilerplate-docs]
 - [Example][ack-nestjs-mongoose-boilerplate-docs-example]
 - [Tips][ack-nestjs-mongoose-boilerplate-docs-tips]
 
+### Dev tips
+Recommended request decorators' ordering:
+```
+@Response()
+@Logger()
+@UserDeleteGuard()
+@RequestParamGuard()
+@AuthExcludeApiKey()
+@AuthAdminJwtGuard()
+@HttpCode()
+@ErrorMeta()
+@Post()
+@ApiHeader()
+@ApiResponse()
+```
+
 ## Credits
 
-This module benefits a lot from the powerful *NestJS* server dev framework. It is also greatly inspired by the work done by Andre Christi Kan, a.k.a. [ACK](https://github.com/andrechristikan), and the contributors of the template projet [ACK NestJs Boilerplate Mongoose](https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose) (MIT license).
+This module benefits a lot from the powerful *NestJS* server dev framework. It is also greatly inspired by the work done by Andre Christi Kan, a.k.a. [ACK](https://github.com/andrechristikan), and the contributors of the template project [ACK NestJs Boilerplate Mongoose](https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose) (MIT license).
 
 ## License
 

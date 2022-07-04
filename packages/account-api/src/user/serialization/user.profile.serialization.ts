@@ -1,6 +1,6 @@
 import { ApiHideProperty } from '@nestjs/swagger/dist/decorators';
 import { Exclude, Transform, Type } from 'class-transformer';
-import { IAuthApiDocument } from 'src/apikey/auth.api.interface';
+import { IApiKeyDocument } from 'src/apikey/api.key.interface';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 import { IRoleDocument } from 'src/role/role.interface';
 
@@ -29,12 +29,12 @@ export class UserProfileSerialization {
     /** User mobile phone number */
     readonly mobileNumber?: string;
     /** User profile picture */
-    readonly photo?: IAwsS3Response;
+    readonly picture?: IAwsS3Response;
 
     /** API Access keys */
     @Exclude()
     @ApiHideProperty()
-    readonly apikey?: IAuthApiDocument[];
+    readonly apikey?: IApiKeyDocument[];
 
     /** User password (hash) */
     @Exclude()
@@ -42,7 +42,7 @@ export class UserProfileSerialization {
     readonly password: string;
 
     /** User password expiration time */
-    readonly passwordExpired: Date;
+    readonly passwordExpiration: Date;
 
     /** User password's hashing salt */
     @Exclude()

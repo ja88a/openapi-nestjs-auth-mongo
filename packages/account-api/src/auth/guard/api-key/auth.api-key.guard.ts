@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { HelperNumberService } from 'src/utils/helper/service/helper.number.service';
-import { AUTH_EXCLUDE_API_KEY_META_KEY } from 'src/apikey/auth.api.constant';
+import { AUTH_EXCLUDE_API_KEY_META_KEY } from 'src/apikey/api.key.constant';
 import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/auth/auth.constant';
 
 @Injectable()

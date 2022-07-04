@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/auth/auth.constant';
-import { AuthApiService } from 'src/apikey/service/auth.api.service';
+import { ApiKeyService } from 'src/apikey/service/api.key.service';
 import { IRequestApp } from 'src/utils/request/request.interface';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class BasicGuard implements CanActivate {
 
     constructor(
         private readonly configService: ConfigService,
-        private readonly authApiService: AuthApiService
+        private readonly authApiService: ApiKeyService
     ) {
         this.clientId = this.configService.get<string>(
             'auth.basicToken.clientId'

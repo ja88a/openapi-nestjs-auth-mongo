@@ -25,4 +25,4 @@ export const USER_DEFAULT_AVAILABLE_SEARCH = [
     'mobileNumber',
 ];
 
-export const USER_API_SWAGGER_TAG = 'User';
+export const USER_API_SWAGGER_TAG = 'Users';

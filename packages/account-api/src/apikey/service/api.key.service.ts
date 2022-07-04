@@ -3,29 +3,29 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseEntity } from 'src/database/database.decorator';
 import { Model } from 'mongoose';
-import { AuthApiDocument, AuthApiEntity } from '../../apikey/schema/auth.api.schema';
+import { ApiKeyDocument, ApiKeyEntity } from '../schema/api.key.schema';
 import { IDatabaseFindAllOptions } from 'src/database/database.interface';
 import { plainToInstance } from 'class-transformer';
 import {
-    IAuthApiDocument,
-    IAuthApiRequestHashedData,
-    IAuthApiCreate,
-} from '../auth.api.interface';
+    IApiKeyDocument,
+    IApiKeyAuthRequestHashedData,
+    IApiKeyCreate,
+} from '../api.key.interface';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { ConfigService } from '@nestjs/config';
 import { HelperHashService } from 'src/utils/helper/service/helper.hash.service';
 import { HelperEncryptionService } from 'src/utils/helper/service/helper.encryption.service';
-import { AuthApiUpdateDto } from 'src/apikey/dto/auth.api.update.dto';
-import { AuthApiGetSerialization } from 'src/apikey/serialization/auth.api.get.serialization';
-import { AuthApiListSerialization } from 'src/apikey/serialization/auth.api.list.serialization';
+import { ApiKeyUpdateDto } from 'src/apikey/dto/api.key.update.dto';
+import { ApiKeyGetSerialization } from 'src/apikey/serialization/api.key.get.serialization';
+import { ApiKeyListSerialization } from 'src/apikey/serialization/api.key.list.serialization';
 
 @Injectable()
-export class AuthApiService {
+export class ApiKeyService {
     private readonly env: string;
 
     constructor(
-        @DatabaseEntity(AuthApiEntity.name)
-        private readonly authApiModel: Model<AuthApiDocument>,
+        @DatabaseEntity(ApiKeyEntity.name)
+        private readonly authApiModel: Model<ApiKeyDocument>,
         private readonly helperStringService: HelperStringService,
         private readonly configService: ConfigService,
         private readonly helperHashService: HelperHashService,
@@ -37,7 +37,7 @@ export class AuthApiService {
     async findAll(
         find?: Record<string, any>,
         options?: IDatabaseFindAllOptions
-    ): Promise<AuthApiDocument[]> {
+    ): Promise<ApiKeyDocument[]> {
         const apiKeys = this.authApiModel.find(find).select({
             name: 1,
             key: 1,
@@ -64,39 +64,39 @@ export class AuthApiService {
         return this.authApiModel.countDocuments(find);
     }
 
-    async findOneById(_id: string): Promise<AuthApiDocument> {
+    async findOneById(_id: string): Promise<ApiKeyDocument> {
         return this.authApiModel.findById(_id).lean();
     }
 
-    async findOne(find?: Record<string, any>): Promise<AuthApiDocument> {
+    async findOne(find?: Record<string, any>): Promise<ApiKeyDocument> {
         return this.authApiModel.findOne(find).lean();
     }
 
-    async findOneByKey(key: string): Promise<AuthApiDocument> {
+    async findOneByKey(key: string): Promise<ApiKeyDocument> {
         return this.authApiModel.findOne({ key }).lean();
     }
 
     async serializationList(
-        data: AuthApiDocument[]
-    ): Promise<AuthApiListSerialization[]> {
-        return plainToInstance(AuthApiListSerialization, data);
+        data: ApiKeyDocument[]
+    ): Promise<ApiKeyListSerialization[]> {
+        return plainToInstance(ApiKeyListSerialization, data);
     }
 
     async serializationGet(
-        data: AuthApiDocument
-    ): Promise<AuthApiGetSerialization> {
-        return plainToInstance(AuthApiGetSerialization, data);
+        data: ApiKeyDocument
+    ): Promise<ApiKeyGetSerialization> {
+        return plainToInstance(ApiKeyGetSerialization, data);
     }
 
-    async inactive(_id: string): Promise<AuthApiDocument> {
-        const authApi: AuthApiDocument = await this.authApiModel.findById(_id);
+    async inactive(_id: string): Promise<ApiKeyDocument> {
+        const authApi: ApiKeyDocument = await this.authApiModel.findById(_id);
 
         authApi.isActive = false;
         return authApi.save();
     }
 
-    async active(_id: string): Promise<AuthApiDocument> {
-        const authApi: AuthApiDocument = await this.authApiModel.findById(_id);
+    async active(_id: string): Promise<ApiKeyDocument> {
+        const authApi: ApiKeyDocument = await this.authApiModel.findById(_id);
 
         authApi.isActive = true;
         return authApi.save();
@@ -109,7 +109,7 @@ export class AuthApiService {
         secret,
         passphrase,
         encryptionKey,
-    }: IAuthApiCreate): Promise<IAuthApiDocument> {
+    }: IApiKeyCreate): Promise<IApiKeyDocument> {
         key = key ? key : await this.createKey();
         secret = secret ? secret : await this.createSecret();
         passphrase = passphrase ? passphrase : await this.createPassphrase();
@@ -118,7 +118,7 @@ export class AuthApiService {
             : await this.createEncryptionKey();
         const hash: string = await this.createHashApiKey(key, secret);
 
-        const create: AuthApiDocument = new this.authApiModel({
+        const create: ApiKeyDocument = new this.authApiModel({
             name,
             description,
             key,
@@ -140,9 +140,9 @@ export class AuthApiService {
 
     async updateOneById(
         _id: string,
-        { name, description }: AuthApiUpdateDto
-    ): Promise<AuthApiDocument> {
-        const authApi: AuthApiDocument = await this.authApiModel.findById(_id);
+        { name, description }: ApiKeyUpdateDto
+    ): Promise<ApiKeyDocument> {
+        const authApi: ApiKeyDocument = await this.authApiModel.findById(_id);
 
         authApi.name = name;
         authApi.description = description;
@@ -150,8 +150,8 @@ export class AuthApiService {
         return authApi.save();
     }
 
-    async updateHashById(_id: string): Promise<IAuthApiDocument> {
-        const authApi: AuthApiDocument = await this.authApiModel.findById(_id);
+    async updateHashById(_id: string): Promise<IApiKeyDocument> {
+        const authApi: ApiKeyDocument = await this.authApiModel.findById(_id);
         const secret: string = await this.createSecret();
         const hash: string = await this.createHashApiKey(authApi.key, secret);
         const passphrase: string = await this.createPassphrase();
@@ -171,11 +171,11 @@ export class AuthApiService {
         };
     }
 
-    async deleteOneById(_id: string): Promise<AuthApiDocument> {
+    async deleteOneById(_id: string): Promise<ApiKeyDocument> {
         return this.authApiModel.findByIdAndDelete(_id);
     }
 
-    async deleteOne(find: Record<string, any>): Promise<AuthApiDocument> {
+    async deleteOne(find: Record<string, any>): Promise<ApiKeyDocument> {
         return this.authApiModel.findOneAndDelete(find);
     }
 
@@ -223,7 +223,7 @@ export class AuthApiService {
         apiKeyHashed: string,
         secretKey: string,
         passphrase: string
-    ): Promise<IAuthApiRequestHashedData> {
+    ): Promise<IApiKeyAuthRequestHashedData> {
         const decrypted = this.helperEncryptionService.aes256Decrypt(
             apiKeyHashed,
             secretKey,
@@ -234,7 +234,7 @@ export class AuthApiService {
     }
 
     async encryptApiKey(
-        data: IAuthApiRequestHashedData,
+        data: IApiKeyAuthRequestHashedData,
         secretKey: string,
         passphrase: string
     ): Promise<string> {

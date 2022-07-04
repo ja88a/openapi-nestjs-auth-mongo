@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
  * Data model of the API Access Authentication
  */
 @Schema({ timestamps: true, versionKey: false })
-export class AuthApiEntity {
+export class ApiKeyEntity {
 
     /** Name of the API set */
     @Prop({
@@ -58,10 +58,10 @@ export class AuthApiEntity {
 }
 
 /** DB default collection name for the Authentication API Key documents */
-export const AuthApiDatabaseName = 'authapis';
+export const ApiKeyDatabaseName = 'apikeys';
 
 /** DB schema for the Authentication API Keys */
-export const AuthApiSchema = SchemaFactory.createForClass(AuthApiEntity);
+export const ApiKeySchema = SchemaFactory.createForClass(ApiKeyEntity);
 
 /** DB document for the Authentication API Key */
-export type AuthApiDocument = AuthApiEntity & Document;
+export type ApiKeyDocument = ApiKeyEntity & Document;

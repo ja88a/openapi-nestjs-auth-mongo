@@ -148,26 +148,26 @@ export class AuthService {
 
         const salt: string = this.helperHashService.randomSalt(saltLength);
 
-        const passwordExpiredInMs: number = this.configService.get<number>(
+        const passwordExpirationInMs: number = this.configService.get<number>(
             'auth.password.expiredInMs'
         );
-        const passwordExpired: Date =
-            this.helperDateService.forwardInMilliseconds(passwordExpiredInMs);
+        const passwordExpiration: Date =
+            this.helperDateService.forwardInMilliseconds(passwordExpirationInMs);
         const passwordHash = this.helperHashService.bcrypt(password, salt);
         return {
             passwordHash,
-            passwordExpired,
+            passwordExpiration,
             salt,
         };
     }
 
-    async checkPasswordExpired(passwordExpired: Date): Promise<boolean> {
+    async checkPasswordExpired(passwordExpiration: Date): Promise<boolean> {
         const today: Date = this.helperDateService.create();
-        const passwordExpiredConvert: Date = this.helperDateService.create({
-            date: passwordExpired,
+        const passwordExpirationConvert: Date = this.helperDateService.create({
+            date: passwordExpiration,
         });
 
-        if (today > passwordExpiredConvert) {
+        if (today > passwordExpirationConvert) {
             return true;
         }
 

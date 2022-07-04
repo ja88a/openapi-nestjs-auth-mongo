@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
-import { AuthExcludeApiKey } from 'src/apikey/auth.api.decorator';
+import { AuthExcludeApiKey, AuthExcludeApiKeyHeader } from 'src/apikey/api.key.decorator';
 import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
 import { Logger } from 'src/logger/logger.decorator';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
@@ -31,10 +31,10 @@ export class TestingCommonController {
     ) {}
 
     @Response('test.hello')
-    @AuthExcludeApiKey()
-    @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['test'] })
+    @AuthExcludeApiKeyHeader()
     @ErrorMeta(TestingCommonController.name, 'hello')
     @Get('/hello')
+    @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['test'] })
     async hello(
         @RequestUserAgent() userAgent: IResult,
         @RequestTimezone() timezone: string
@@ -58,8 +58,9 @@ export class TestingCommonController {
     @Response('test.helloTimeout')
     @AuthExcludeApiKey()
     @ResponseTimeout('10s')
+    @Logger(ENUM_LOGGER_ACTION.TEST_TIMEOUT, { tags: ['test', 'timeout'] })
     @ErrorMeta(TestingCommonController.name, 'helloTimeout')
-    @Get('/hello/timeout')
+    @Get('/hello-timeout')
     async helloTimeout(): Promise<IResponse> {
         await this.helperService.delay(60000);
 

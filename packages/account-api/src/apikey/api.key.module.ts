@@ -6,17 +6,17 @@ import { ApiKeyStrategy } from 'src/auth/guard/api-key/auth.api-key.strategy';
 import { JwtStrategy } from 'src/auth/guard/jwt/auth.jwt.strategy';
 import { DATABASE_CONNECTION_NAME } from 'src/database/database.constant';
 import {
-    AuthApiDatabaseName,
-    AuthApiEntity,
-    AuthApiSchema,
-} from './schema/auth.api.schema';
-import { AuthApiBulkService } from './service/auth.api.bulk.service';
-import { AuthApiService } from './service/auth.api.service';
+    ApiKeyDatabaseName,
+    ApiKeyEntity,
+    ApiKeySchema,
+} from './schema/api.key.schema';
+import { ApiKeyBulkService } from './service/api.key.bulk.service';
+import { ApiKeyService } from './service/api.key.service';
 
 @Module({
     providers: [
-        AuthApiService,
-        AuthApiBulkService,
+        ApiKeyService,
+        ApiKeyBulkService,
         JwtStrategy,
         ApiKeyStrategy,
         {
@@ -24,19 +24,19 @@ import { AuthApiService } from './service/auth.api.service';
             useClass: ApiKeyGuard,
         },
     ],
-    exports: [ AuthApiService, AuthApiBulkService],
+    exports: [ ApiKeyService, ApiKeyBulkService],
     controllers: [],
     imports: [
         MongooseModule.forFeature(
             [
                 {
-                    name: AuthApiEntity.name,
-                    schema: AuthApiSchema,
-                    collection: AuthApiDatabaseName,
+                    name: ApiKeyEntity.name,
+                    schema: ApiKeySchema,
+                    collection: ApiKeyDatabaseName,
                 },
             ],
             DATABASE_CONNECTION_NAME
         ),
     ],
 })
-export class AuthApiModule {}
+export class ApiKeyAuthModule {}

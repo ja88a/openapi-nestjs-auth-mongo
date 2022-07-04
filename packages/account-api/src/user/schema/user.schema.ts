@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types, Document } from 'mongoose';
-import { AuthApiEntity } from 'src/apikey/schema/auth.api.schema';
+import { ApiKeyEntity } from 'src/apikey/schema/api.key.schema';
 import { IAwsS3Response } from 'src/aws/aws.interface';
 import { RoleEntity } from 'src/role/schema/role.schema';
 
@@ -54,7 +54,7 @@ export class UserEntity {
     @Prop({
         required: true,
     })
-    passwordExpired: Date;
+    passwordExpiration: Date;
 
     @Prop({
         required: true,
@@ -79,13 +79,13 @@ export class UserEntity {
             mime: String,
         },
     })
-    photo?: IAwsS3Response;
+    picture?: IAwsS3Response;
 
     @Prop({
         required: false,
         type: Array,
         default: [],
-        ref: AuthApiEntity.name,
+        ref: ApiKeyEntity.name,
     })
     apiKey?: Types.ObjectId[];
 }

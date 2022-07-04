@@ -6,7 +6,7 @@ on:
     paths: 
     - "packages/account-api/**"
     - "!packages/account-api/**/*.md"
-    - ".github/workflows/linter-auth.yml"
+    - ".github/workflows/linter-account.yml"
 
 defaults:
   run:

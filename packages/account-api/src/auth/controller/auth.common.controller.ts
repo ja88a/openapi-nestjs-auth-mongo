@@ -39,6 +39,7 @@ import { AuthLoginDto } from 'src/auth/dto/auth.login.dto';
 import { AuthChangePasswordDto } from 'src/auth/dto/auth.change-password.dto';
 import { AuthLoginSerialization } from 'src/auth/serialization/auth.login.serialization';
 import { AuthService } from 'src/auth/service/auth.service';
+import { AuthExcludeApiKey } from 'src/apikey/api.key.decorator';
 
 /**
  * Controller of the common Account Authentication requests
@@ -70,8 +71,9 @@ export class AuthCommonController {
     @Response('auth.login', {
         statusCode: ENUM_AUTH_STATUS_CODE_SUCCESS.AUTH_LOGIN_SUCCESS,
     })
-    @Logger(ENUM_LOGGER_ACTION.LOGIN, { tags: ['login', 'withEmail'] })
+    @AuthExcludeApiKey()
     @HttpCode(HttpStatus.OK)
+    @Logger(ENUM_LOGGER_ACTION.LOGIN, { tags: ['login', 'withEmail'] })
     @ErrorMeta(AuthCommonController.name, 'login')
     @Post('/login')
     @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
@@ -140,13 +142,13 @@ export class AuthCommonController {
         );
 
         const checkPasswordExpired: boolean =
-            await this.authService.checkPasswordExpired(user.passwordExpired);
+            await this.authService.checkPasswordExpired(user.passwordExpiration);
 
         if (checkPasswordExpired) {
             throw new SuccessException({
                 statusCode:
                     ENUM_AUTH_STATUS_CODE_ERROR.AUTH_PASSWORD_EXPIRED_ERROR,
-                message: 'auth.error.passwordExpired',
+                message: 'auth.error.passwordExpiration',
                 data: {
                     accessToken,
                     refreshToken,
@@ -167,15 +169,17 @@ export class AuthCommonController {
      * @example {"statusCode": 1001, "message": "Login success.", "data": {"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmI4ODYyM2U2NDQ3MWI2NDRiYTc5M2MiLCJtb2JpbGVOdW1iZXIiOiI2MjgxMjMxMjExMTEiLCJlbWFpbCI6InVzZXJAbWFpbC5jb20iLCJyb2xlIjp7Im5hbWUiOiJ1c2VyIiwicGVybWlzc2lvbnMiOltdLCJpc0FjdGl2ZSI6dHJ1ZSwiaXNBZG1pbiI6ZmFsc2V9LCJwYXNzd29yZEV4cGlyZWQiOiIyMDIyLTEyLTI1VDE3OjE1OjMxLjg4NloiLCJpc0FjdGl2ZSI6dHJ1ZSwicmVtZW1iZXJNZSI6dHJ1ZSwibG9naW5EYXRlIjoiMjAyMi0wNi0yOFQxNjoxNzoxMi40MDVaIiwiaWF0IjoxNjU2NDMzMDMyLCJuYmYiOjE2NTY0MzMwMzIsImV4cCI6MTY1ODIzMzAzMn0.c5wbf_z1qHu3tyyK6cqxJbBmBBPKGg2y4nWkAHeq_94", "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmI4ODYyM2U2NDQ3MWI2NDRiYTc5M2MiLCJyZW1lbWJlck1lIjp0cnVlLCJsb2dpbkRhdGUiOiIyMDIyLTA2LTI4VDE2OjE3OjEyLjQwNVoiLCJpYXQiOjE2NTY0MzMwMzIsIm5iZiI6MTY1ODIzMzAzMiwiZXhwIjo0MjQ4NDMzMDMyfQ.c2z03KUoHtvynV71AbInOSE2XC4JQgBsg4z91UJR2Po"} }
      */
     @Response('auth.refresh')
+    @ApiBearerAuth()
+    @AuthExcludeApiKey()
     @AuthRefreshJwtGuard()
     @HttpCode(HttpStatus.OK)
+    @Logger(ENUM_LOGGER_ACTION.TOKEN_REFRESH, { tags: ['token', 'refresh'] })
     @ErrorMeta(AuthCommonController.name, 'refresh')
     @Post('/refresh')
     @ApiTags(AUTH_API_SWAGGER_TAG)
-    @ApiBearerAuth()
-    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
     @ApiHeader({ name: 'x-api-key', description: 'API Access Key: time-based & encrypted' })
     @ApiHeader({ name: 'x-timestamp', description: 'Timestamp (ms) of the request when triggered' })
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaRespGen({ "type": "object", "properties": { "accessToken": { "type": "string", "description": "Access token" },  "refreshToken": { "type": "string", "description": "Refresh token" }} }) })
     async refresh(
         @User()
         { _id, rememberMe, loginDate }: Record<string, any>,
@@ -207,13 +211,13 @@ export class AuthCommonController {
         }
 
         const checkPasswordExpired: boolean =
-            await this.authService.checkPasswordExpired(user.passwordExpired);
+            await this.authService.checkPasswordExpired(user.passwordExpiration);
 
         if (checkPasswordExpired) {
             throw new ForbiddenException({
                 statusCode:
                     ENUM_AUTH_STATUS_CODE_ERROR.AUTH_PASSWORD_EXPIRED_ERROR,
-                message: 'auth.error.passwordExpired',
+                message: 'auth.error.passwordExpiration',
             });
         }
 
@@ -238,13 +242,14 @@ export class AuthCommonController {
      * Change actual user password
      */
     @Response('auth.changePassword')
+    @ApiBearerAuth()
     @AuthJwtGuard()
+    @Logger(ENUM_LOGGER_ACTION.PASSWORD_CHANGE, { tags: ['password', 'change'] })
     @ErrorMeta(AuthCommonController.name, 'changePassword')
     @Patch('/change-password')
-    @ApiBearerAuth()
-    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
     @ApiHeader({ name: 'x-api-key', description: 'API Access Key, time-based & encrypted' })
     @ApiHeader({ name: 'x-timestamp', description: 'timestamp (ms) of the request when triggered' })
+    @ApiOkResponse({ description: 'Request successful.', schema: getSchemaResp() })
     async changePassword(
         @Body() body: AuthChangePasswordDto,
         @User('_id') _id: string
@@ -277,7 +282,7 @@ export class AuthCommonController {
             throw new BadRequestException({
                 statusCode:
                     ENUM_AUTH_STATUS_CODE_ERROR.AUTH_PASSWORD_NEW_MUST_DIFFERENCE_ERROR,
-                message: 'auth.error.newPasswordMustDifference',
+                message: 'auth.error.newPasswordMustDiffer',
             });
         }
 

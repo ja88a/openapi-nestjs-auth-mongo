@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import Strategy from 'passport-headerapikey';
-import { AuthApiDocument } from 'src/apikey/schema/auth.api.schema';
+import { ApiKeyDocument } from 'src/apikey/schema/api.key.schema';
 import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/auth/auth.constant';
 import { IRequestApp } from 'src/utils/request/request.interface';
 import { HelperNumberService } from 'src/utils/helper/service/helper.number.service';
-import { IAuthApiRequestHashedData } from 'src/apikey/auth.api.interface';
-import { AuthApiService } from 'src/apikey/service/auth.api.service';
+import { IApiKeyAuthRequestHashedData } from 'src/apikey/api.key.interface';
+import { ApiKeyService } from 'src/apikey/service/api.key.service';
 
 @Injectable()
 export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
     constructor(
-        private readonly authApiService: AuthApiService,
+        private readonly authApiService: ApiKeyService,
         private readonly helperNumberService: HelperNumberService
     ) {
         super(
@@ -42,7 +42,7 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
         const key = xApiKey[0];
         const encrypted = xApiKey[1];
 
-        const authApi: AuthApiDocument = await this.authApiService.findOneByKey(
+        const authApi: ApiKeyDocument = await this.authApiService.findOneByKey(
             key
         );
 
@@ -59,7 +59,7 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
                 `${ENUM_AUTH_STATUS_CODE_ERROR.AUTH_GUARD_API_KEY_INACTIVE_ERROR}`
             );
         } else {
-            const decrypted: IAuthApiRequestHashedData =
+            const decrypted: IApiKeyAuthRequestHashedData =
                 await this.authApiService.decryptApiKey(
                     encrypted,
                     authApi.encryptionKey,

@@ -6,7 +6,7 @@ import {
     ValidateIf,
 } from 'class-validator';
 
-export class AuthApiUpdateDto {
+export class ApiKeyUpdateDto {
     @IsNotEmpty()
     @IsString()
     @MaxLength(50)
