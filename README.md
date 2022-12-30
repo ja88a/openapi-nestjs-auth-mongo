@@ -19,7 +19,7 @@
 
 ## Purpose
 
-> A mono repo to develop a set of NestJs-baed Open API Services, Restful API Microservices
+> A mono repo to develop a set of NestJs-based Open API Services, Restful API Microservices with full auth support
 
 Made with following best practices:
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
