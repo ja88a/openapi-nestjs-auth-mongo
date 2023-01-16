@@ -8621,9 +8621,9 @@ nest-winston@^1.6.2:
     fast-safe-stringify "^2.1.1"
 
 nestjs-command@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/nestjs-command/-/nestjs-command-3.1.1.tgz#26e11cef4b3f588a63d20fdf32da7e18e61d774a"
-  integrity sha512-jis8nS0QNZkw35BzBlkkOqty4BJcomUZdmIyne+HjSdk0CwIy6PzXkhGiUIPySBwoK/6d4OxjFQckVoNB/H0TA==
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/nestjs-command/-/nestjs-command-3.1.2.tgz#a3eb6fbe24a41b4a6bfb0db36e45dfd3a0c7bac2"
+  integrity sha512-9PG4cEqx2OME+YSO7uzLg6YBzGwP7rv9ULZqa+Uitu7KR5S/FEWj1BrmET9vdWG61H/jy9mJdYro4ml4je02cg==
   dependencies:
     lodash.compact "^3.0.1"
     lodash.flattendeep "^4.4.0"
